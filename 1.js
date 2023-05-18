@@ -6,21 +6,22 @@ import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
 
-
 export class MyElement extends LitElement {
   static get properties() {
     return {
       empForm: { type: Object },
-      empDataForm:{type:Array},
+      //  EmailChecked: { type: String },
+      //  PhoneChecked: { type: String },
     };
   }
-  //==============================================================
 
   constructor() {
     super();
     this.empForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
       empCode: { value: "", isValidName: false, errorMessage: "" },
+      email: { value: "", isValidName: false, errorMessage: "" },
+      phone: { value: "", isValidName: false, errorMessage: "" },
       address: { value: "", isValidName: false, errorMessage: "" },
       address1: { value: "", isValidName: true },
       landmark: { value: "", isValidName: false, errorMessage: "" },
@@ -31,12 +32,7 @@ export class MyElement extends LitElement {
       city: { value: "", isValidName:false,errorMessage: "" },
       state: { value: "", isValidName:false,errorMessage: "" },
     };
-
-
-    this.empDataForm=[];
   }
-
-  //=====================================================================
 
   static get styles() {
     return css`
@@ -160,24 +156,23 @@ export class MyElement extends LitElement {
     }
 `;
   }
-  //=================================================================
   render() {
     return html`
       <div id="bod">
         <div class="container">
           <div class="header">
-            <h2>EMPLOYEE  DATA FORM</h2>
+            <h2>EMPLOYEE DATA FORM</h2>
           </div>
           <!-- <a target="_blank" href="doc.html">Instruction to fill the form and validation</a> -->
           <form @submit=${this.submit} class="form">
             <div class="form-control">
-              <label for="name-input"> UserName</label>
+              <label for="name-input"> Name:</label>
               <input
                 type="text"
                 id="name-input"
                 required
                 autocomplete="off"
-                placeholder="Enter your Fullname "
+                 placeholder="Enter your Fullname " 
                 @input=${(e) => this.validateForm(e, "empName")}
                 style=${this.empForm.name?.errorMessage
                   ? "border: solid 3px red;"
@@ -185,10 +180,10 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
-            <!---------------------------------------->
+            <!----------------------------------->
 
             <div class="form-control">
-              <label for="empcode-input">Employee Code</label>
+              <label for="empcode-input">Emp Code:</label>
               <input
                 id="empcode-input"
                 required
@@ -200,11 +195,42 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.empCode.errorMessage}</p>
             </div>
-            <!-------------------------------------------->
+            <!----------------------------------------->
 
-            <!------------------------------------------->
+            <div class="form-control">
+              <label for="email-input">Email</label>
+           
+              <input
+                type="email"
+                id="email-input"
+                placeholder="Enter your Email Address"
+                required
+                @input=${(e) => this.validateForm(e, "email")}
+                style=${this.empForm.email?.errorMessage
+                  ? "border: solid 3px red;"
+                  : ""}
+              />
+              <p id="display">${this.empForm.email.errorMessage}</p>
+            </div>
+            <!----------------------------->
 
-            <!-------------------------------------------------->
+            <div class="form-control">
+              <label for="phone-input">Phone Number</label>
+             
+              <input
+                type="Number"
+                id="phone-input"
+                placeholder="Enter your phone"
+                autocomplete="off"
+                required
+                @input=${(e) => this.validateForm(e, "phone")}
+                style=${this.empForm.phone?.errorMessage
+                  ? "border: solid 3px red;"
+                  : ""}
+              />
+              <p id="display">${this.empForm.phone.errorMessage}</p>
+            </div>
+            <!--------------------------------------->
 
             <div class="form-control">
               <label>Designation</label>
@@ -221,7 +247,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.designation.errorMessage}</p>
             </div>
-            <!--------------------------------------------------->
+            <!---------------------------------------------->
 
             <div class="form-control">
               <label>Department</label>
@@ -237,7 +263,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.department.errorMessage}</p>
             </div>
-            <!----------------------------------------------------->
+            <!------------------------------------>
 
             <div class="form-control">
               <label>Address line 1</label>
@@ -252,7 +278,7 @@ export class MyElement extends LitElement {
                   : ""}
               />
             </div>
-            <!-------------------------------------------------------->
+            <!----------------------------------------->
             <div class="form-control">
               <label>Address line 2</label>
               <input
@@ -266,7 +292,7 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.address.errorMessage}</p>
             </div>
-            <!----------------------------------------------------------->
+            <!--------------------------->
 
             <div class="form-control">
               <label>Landmark</label>
@@ -282,7 +308,7 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.landmark.errorMessage}</p>
             </div>
-            <!-------------------------------------------------------->
+            <!---------------------------------------->
 
             <div class="form-control">
               <label>Country</label>
@@ -298,7 +324,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.country.errorMessage}</p>
             </div>
-            <!----------------------------------------------->
+            <!------------------------------------------->
             <div class="form-control">
               <label>State</label>
               <select
@@ -313,7 +339,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.state.errorMessage}</p>
             </div>
-            <!------------------------------------------->
+            <!--------------------------------------------->
 
             <div class="form-control">
               <label>City</label>
@@ -329,7 +355,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.city.errorMessage}</p>
             </div>
-            <!------------------------------------------>
+            <!------------------------------------------------->
 
             <div class="form-control">
               <label>Zip Code</label>
@@ -346,6 +372,7 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.zipcode.errorMessage}</p>
             </div>
+            <!---------------------------------------------------->
 
             <center><button type="submit" class="btn">Submit</button></center>
           </form>
@@ -353,10 +380,20 @@ export class MyElement extends LitElement {
       </div>
     `;
   }
-  //===================================================================
 
-  
-  //===============================================================
+  // handleRadioChange(e) {
+  //   this.EmailChecked = e.target.value;
+  //   // console.log(this.EmailChecked)
+
+  //   this.validateForm(e, "email");
+  // }
+
+  // handleRadio1Change(e) {
+  //   this.PhoneChecked = e.target.value;
+  //   // console.log(this.PhoneChecked)
+
+  //   this.validateForm(e, "phone");
+  // }
 
   validateForm(e, type) {
     switch (type) {
@@ -370,14 +407,15 @@ export class MyElement extends LitElement {
           },
         };
 
-        if (this.empForm.name.value.length > 7) {
+        if (this.empForm.name.value.length > 8) {
           console.log(this.empForm.name);
           this.empForm = {
             ...this.empForm,
             name: {
               value: `${e.target.value} `,
               isValidName: false,
-              errorMessage: "Username can't exceed 7 characters",
+              // errorMessage: "Username can't exceed 7 characters",
+              errorMessage: "Please enter valid name",
             },
           };
         } else {
@@ -393,7 +431,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //=================================================
+      // ========================================================
 
       case "empCode": {
         this.empForm = {
@@ -411,7 +449,7 @@ export class MyElement extends LitElement {
             empCode: {
               value: `${e.target.value} `,
               isValidName: false,
-              errorMessage: "Maximum length exceeded",
+              errorMessage: "Please enter valid code",
             },
           };
         } else if (
@@ -446,12 +484,81 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //===================================================
+      //===============================================================
 
-      //=============================================
+      case "email": {
+        this.employee = {
+          ...this.employee,
+          email: {
+            value: `${e.target.value}`,
+            isValidName: false,
+            errorMessage: "",
+          },
+        };
+        var emailstr = this.employee.email.value;
+        let emailpart = emailstr.slice(-13);
+        if (
+          emailstr.includes("@annalect.com") &&
+          emailstr.length > 14 &&
+          emailpart === "@annalect.com"
+        ) {
+          this.employee = {
+            ...this.employee,
+            email: {
+              value: `${e.target.value}`,
+              isValidName: true,
+              errorMessage: "",
+            }
+          }
+        } else {
+          this.employee = {
+            ...this.employee,
+            email: {
+              value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "*Domain name should be (annalect.com)",
+            },
+          };
+        }  
+      }break;
 
-      
-      //========================================
+      //=============================================================
+
+      case "phone":{
+        this.employee = {
+            ...this.employee,
+            phone: {
+              value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "",
+            }
+          };
+          var phone =this.employee.phone.value;
+          var digit = /^\d+$/.test(phone);
+
+          if( this.employee.phone.value.length  == 10 && digit === true){
+            this.employee = {
+                ...this.employee,
+                phone: {
+                  value: `${e.target.value}`,
+                  isValidName: true,
+                  errorMessage: "",
+                }
+            } 
+
+          }else{
+            this.employee = {
+                ...this.employee,
+                phone: {
+                  value: `${e.target.value}`,
+                  isValidName: false,
+                  errorMessage: "*Must contain 10 digits",
+                }
+            } 
+
+          } 
+      }break;
+      //=================================================================
 
       case "designation": {
         this.empForm = {
@@ -484,7 +591,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //==========================================
+      //=======================================================
 
       case "department": {
         this.empForm = {
@@ -517,7 +624,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //====================================================
+      //===============================================================
 
       case "addressLine1":
         {
@@ -553,7 +660,7 @@ export class MyElement extends LitElement {
           // console.log(this.empForm.address);
           break;
         }
-        //=========================================================
+        //========================================================
 
       case "addressLine2": {
         this.empForm = {
@@ -564,7 +671,6 @@ export class MyElement extends LitElement {
         };
         break;
       }
-      //================================================
 
       case "landmark":
         {
@@ -600,7 +706,7 @@ export class MyElement extends LitElement {
           // console.log(this.empForm.landmark);
           break;
         }
-        //======================================================
+        //==================================================================
 
       case "country": {
         this.empForm = {
@@ -633,7 +739,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //======================================================
+      //====================================================================
 
       case "state": {
         this.empForm = {
@@ -666,8 +772,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //=======================================================
-
+      //=====================================================================
 
       case "city": {
         this.empForm = {
@@ -700,8 +805,7 @@ export class MyElement extends LitElement {
         }
         break;
       }
-      //===================================================
-
+      //======================================================================
       case "zipCode": {
           this.empForm = {
             ...this.empForm,
@@ -742,32 +846,19 @@ export class MyElement extends LitElement {
     if (
       this.empForm.name.isValidName === true &&
       this.empForm.empCode.isValidName === true &&
+      this.empForm.email.isValidName === true &&
+      this.empForm.phone.isValidName === true &&
       this.empForm.department.isValidName === true &&
       this.empForm.address.isValidName === true &&
       this.empForm.landmark.isValidName === true &&
       this.empForm.zipcode.isValidName === true
     ) {
-      let empdata = {
-        name: this.empForm.name.value,
-        empCode: this.empForm.empCode.value,
-        designation: this.empForm.designation.value,
-        department: this.empForm.department.value,
-        address: this.empForm.address.value,
-        address1: this.empForm.address1.value,
-        landmark: this.empForm.landmark.value,
-        country: this.empForm.country.value,
-        state: this.empForm.state.value,
-        city: this.empForm.city.value,
-        zipcode: this.empForm.zipcode.value,
-      };
-      this.empDataForm.push(empdata);
       const form = this.renderRoot.querySelector("form");
       localStorage.setItem("myFormData", JSON.stringify(this.empForm));
-      localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
-     
       form.reset();
-      alert("Your response wes submitted");
+      alert("Form submitted Successfully into local storage");
     }
   }
 }
+
 window.customElements.define("my-element", MyElement);
