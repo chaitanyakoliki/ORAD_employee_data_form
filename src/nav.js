@@ -23,6 +23,7 @@ export class MyNav extends LitElement {
         background-color:#f1f4f7;
         height:60px;
         padding:2px;
+        width:100%
 
     }
     ul{
@@ -43,6 +44,7 @@ export class MyNav extends LitElement {
          display:flex;
         position: absolute;
         right: 100px;
+       
     }
     h1{
         font-weight: 300;
