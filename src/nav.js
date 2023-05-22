@@ -7,10 +7,13 @@ export class MyNav extends LitElement {
         return html`   
         <nav id="navbar">
             <ul>
-                <!-- <img src="./src/assets/bg2.jpg"> -->
-                <h1> Annalect</h1>
+                <div>
+                <h1><!--<img src="./src/logo.png">--><a href="index.html">Annalect</a></h1>
+                </div>
+               
                 
             <div id="nav">
+                
                 <a href="index.html">Home</a>
                 <a href="data.html">Saved Data</a>
             </div>
@@ -20,12 +23,17 @@ export class MyNav extends LitElement {
     static get styles() {
         return css`
     #navbar{
-        background-color:#f1f4f7;
+         background-color:#9d9e9e; 
+        /* background-color:#dbe2de; */
         height:60px;
         padding:2px;
-        width:100%
+        width:99%;
+        margin-left:5px;
+        margin-right:5px;
+
 
     }
+   
     ul{
         list-style-type:none;
         display:flex;
@@ -39,6 +47,8 @@ export class MyNav extends LitElement {
         padding:2px;
         font-size:19px;
         /* border-adius:5px; */
+        color:#5013dd; 
+        font-weight: 500; 
     }
     #nav{
          display:flex;
@@ -47,15 +57,24 @@ export class MyNav extends LitElement {
        
     }
     h1{
-        font-weight: 300;
-       font-size: 1.75em;
+        font-weight: 680;
+       /* font-size: 1.75em; */
        line-height: 0.75em; 
-       color: $color-neutral-lt; 
-       text-decoration-line:underline;
-       text-decoration-style:double;
+       /* color: $color-neutral-lt;  */
+       /* text-decoration-line:underline;
+       text-decoration-style:double; */
        font-family: Georgia, serif;
-       margin:10px;
+       margin:0px;
+       margin-bottom:500px;
+       font-size:25px;
+       margin-right:200px;
        
+       
+    } 
+    img{
+        height:32px;
+        background-color:#0bdb58;
+        
     }
    
     `

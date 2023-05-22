@@ -21,6 +21,8 @@ export class MyElement extends LitElement {
     this.empForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
       empCode: { value: "", isValidName: false, errorMessage: "" },
+      email:{value:"",isValidName:true},
+      phone: { value: "", isValidName: true },
       address: { value: "", isValidName: false, errorMessage: "" },
       address1: { value: "", isValidName: true },
       landmark: { value: "", isValidName: false, errorMessage: "" },
@@ -47,7 +49,12 @@ export class MyElement extends LitElement {
       justify-content:center;
       box-sizing:border box;
       animation: animate 20s ease infinite;
-      background-image: radial-gradient(circle,black,rgba(44, 187, 99, .2) );
+      background-image: url("src/bg1bg1.jpg"); 
+      margin:2px; 
+      margin-left:5px;
+      margin-right:5px;
+
+      
       
     }
      
@@ -57,38 +64,40 @@ export class MyElement extends LitElement {
       font-size:30px;
       text-transform:uppercase;
       text-align:center;
-      background: -webkit-linear-gradient(#6a11cb, #2575fc );
+      /* background: -webkit-linear-gradient(#6a11cb, #2575fc );
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent; */
     }
     .header {
       padding:10px 0;
-      background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+      background-image: linear-gradient(120deg, #0bdb58 0%, #0f9ee6 100%);
     }
     .container{
      background-color: #fff;
+     /* color:red; */
      border-radius:10px;
      -webkit-border-radius:10px;
      overflow:hidden;
-     width:50%;
-     margin:5px auto;
-     background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+     width:45%;
+     margin:0px auto;
+     background-color:#e2ecd5;
      box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
      
     }
     .form{
-      padding: 24px;
+      padding: 12px;
     }
     .form-control{
-      margin-bottom:25px;
+      margin-bottom:10px;
       position:relative;
+      
     }
     .form-control label{
       display:block;
       margin-bottom:5px;
       font-weight:bold;
       font-family: Georgia, serif;
-      font-size:18px;
+      font-size:17px;
       padding:2px;
     }
     .form-control input{
@@ -129,7 +138,7 @@ export class MyElement extends LitElement {
     }
     .form .btn:hover{
       
-       background:linear-gradient(to right,#e689e1,	#aebaec); 
+       background:linear-gradient(to right,#e689e1,	#31e482); 
     }
   
     #display{
@@ -142,7 +151,7 @@ export class MyElement extends LitElement {
     }
     #country,#state,#city,#department,#designation{
       width:101%;
-      height:40px; 
+      height:35px; 
       box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
     }
     select{
@@ -168,10 +177,11 @@ export class MyElement extends LitElement {
           <div class="header">
             <h2>EMPLOYEE  DATA FORM</h2>
           </div>
-          <!-- <a target="_blank" href="doc.html">Instruction to fill the form and validation</a> -->
+          
           <form @submit=${this.submit} class="form">
+          
             <div class="form-control">
-              <label for="name-input"> UserName</label>
+              <label for="name-input"> EmpName:</label>
               <input
                 type="text"
                 id="name-input"
@@ -180,41 +190,69 @@ export class MyElement extends LitElement {
                 placeholder="Enter your Fullname "
                 @input=${(e) => this.validateForm(e, "empName")}
                 style=${this.empForm.name?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
             <!---------------------------------------->
 
             <div class="form-control">
-              <label for="empcode-input">Employee Code</label>
+              <label for="empcode-input">EmpCode:</label>
               <input
                 id="empcode-input"
                 required
                 placeholder="Enter your Employee code"
                 @input=${(e) => this.validateForm(e, "empCode")}
                 style=${this.empForm.empCode?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
               <p id="display">${this.empForm.empCode.errorMessage}</p>
             </div>
+            <!----------------------------------------------------->
+            <div class="form-control">
+              <label>Email:</label>
+              <input
+                id="email"
+                placeholder="Enter your mail id"
+                autocomplete="off"
+                @input=${(e) => this.validateForm(e, "Email")}
+                style=${this.empForm.email?.errorMessage
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
+              />
+              <p id="display">${this.empForm.email.errorMessage}</p>
+            </div>
             <!-------------------------------------------->
+            <div class="form-control">
+              <label>Phone Num:</label>
+              <input
+                id="phone"
+                placeholder="phone"
+                autocomplete="off"
+                @input=${(e) => this.validateForm(e, "Phone")}
+                style=${this.empForm.phone?.errorMessage
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
+              />
+              <p id="display">${this.empForm.phone.errorMessage}</p>
+            </div>
+          
 
             <!------------------------------------------->
 
             <!-------------------------------------------------->
 
             <div class="form-control">
-              <label>Designation</label>
+              <label>Designation:</label>
               <select
                 id="designation"
                 required
                 Select your option
                 @input=${(e) => this.validateForm(e, "designation")}
                 style=${this.empForm.designation?.errorMessage
-                  ? "border: solid 4px red;"
+                  ? "border: solid 1px red;"
                   : ""}
               >
                 ${repeat(designation, (e) => html` <option>${e}</option>`)}
@@ -224,23 +262,24 @@ export class MyElement extends LitElement {
             <!--------------------------------------------------->
 
             <div class="form-control">
-              <label>Department</label>
+              <label>Department:</label>
               <select
                 id="department"
                 required
                 @input=${(e) => this.validateForm(e, "department")}
                 style=${this.empForm.department?.errorMessage
-                  ? "border: solid 4px red;"
+                  ? "border: solid 1px red;"
                   : ""}
               >
                 ${repeat(department, (e) => html`<option>${e}</option>`)}
               </select>
               <p id="display">${this.empForm.department.errorMessage}</p>
             </div>
+          
             <!----------------------------------------------------->
 
             <div class="form-control">
-              <label>Address line 1</label>
+              <label>Address line 1:</label>
               <input
                 id="adline1"
                 placeholder="Enter your Address"
@@ -248,21 +287,21 @@ export class MyElement extends LitElement {
                 autocomplete="off"
                 @input=${(e) => this.validateForm(e, "addressLine1")}
                 style=${this.empForm.address?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
             </div>
             <!-------------------------------------------------------->
             <div class="form-control">
-              <label>Address line 2</label>
+              <label>Address line 2:</label>
               <input
                 id="adline2"
                 placeholder="optional"
                 autocomplete="off"
                 @input=${(e) => this.validateForm(e, "addressLine2")}
                 style=${this.empForm.address?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
               <p id="display">${this.empForm.address.errorMessage}</p>
             </div>
@@ -277,8 +316,8 @@ export class MyElement extends LitElement {
                 placeholder="Enter your Landmark"
                 @input=${(e) => this.validateForm(e, "landmark")}
                 style=${this.empForm.landmark?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
               <p id="display">${this.empForm.landmark.errorMessage}</p>
             </div>
@@ -291,7 +330,7 @@ export class MyElement extends LitElement {
                 required
                 @input=${(e) => this.validateForm(e, "country")}
                 style=${this.empForm.country?.errorMessage
-                  ? "border: solid 3px red;"
+                  ? "border: solid 1px red;"
                   : ""}
               >
                 ${repeat(country, (e) => html` <option>${e}</option>`)}
@@ -300,13 +339,13 @@ export class MyElement extends LitElement {
             </div>
             <!----------------------------------------------->
             <div class="form-control">
-              <label>State</label>
+              <label>State:</label>
               <select
                 id="state"
                 required
                 @input=${(e) => this.validateForm(e, "state")}
                 style=${this.empForm.state?.errorMessage
-                  ? "border: solid 3px red;"
+                  ? "border: solid 1px red;"
                   : ""}
               >
                 ${repeat(state, (e) => html` <option>${e}</option>`)}
@@ -316,13 +355,13 @@ export class MyElement extends LitElement {
             <!------------------------------------------->
 
             <div class="form-control">
-              <label>City</label>
+              <label>City:</label>
               <select
                 id="city"
                 required
                 @input=${(e) => this.validateForm(e, "city")}
                 style=${this.empForm.city?.errorMessage
-                  ? "border: solid 3px red;"
+                  ? "border: solid 1px red;"
                   : ""}
               >
                 ${repeat(city, (e) => html` <option>${e}</option>`)}
@@ -332,7 +371,7 @@ export class MyElement extends LitElement {
             <!------------------------------------------>
 
             <div class="form-control">
-              <label>Zip Code</label>
+              <label>Zip Code:</label>
               <input
                 type="Number"
                 id="zip"
@@ -341,13 +380,14 @@ export class MyElement extends LitElement {
                 autocomplete="off"
                 @input=${(e) => this.validateForm(e, "zipCode")}
                 style=${this.empForm.zipcode?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                  ? "border: solid 1px red;"
+                  : "height:13px;"}
               />
               <p id="display">${this.empForm.zipcode.errorMessage}</p>
             </div>
 
             <center><button type="submit" class="btn">Submit</button></center>
+          
           </form>
         </div>
       </div>
@@ -447,6 +487,25 @@ export class MyElement extends LitElement {
         break;
       }
       //===================================================
+      case "Email": {
+        this.empForm = {
+          ...this.empForm,
+          email: {
+            value: `${e.target.value} `,
+          },
+        };
+        break;
+      }
+      //=========================================================================
+      case "Phone": {
+        this.empForm = {
+          ...this.empForm,
+          phone: {
+            value: `${e.target.value} `,
+          },
+        };
+        break;
+      }
 
       //=============================================
 
@@ -742,6 +801,7 @@ export class MyElement extends LitElement {
     if (
       this.empForm.name.isValidName === true &&
       this.empForm.empCode.isValidName === true &&
+      // this.empForm.phone.isValidName==true&&
       this.empForm.department.isValidName === true &&
       this.empForm.address.isValidName === true &&
       this.empForm.landmark.isValidName === true &&
@@ -750,6 +810,8 @@ export class MyElement extends LitElement {
       let empdata = {
         name: this.empForm.name.value,
         empCode: this.empForm.empCode.value,
+        email:this.empForm.email.value,
+        phone: this.empForm.phone.value,
         designation: this.empForm.designation.value,
         department: this.empForm.department.value,
         address: this.empForm.address.value,

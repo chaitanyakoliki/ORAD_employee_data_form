@@ -1,3 +1,3 @@
 export const state =[
-    "--Select Your State--","Haryana","Madhya Pradesh","Rajasthan"
+    "--Select Your State--","Andhra Pradesh","Madhya Pradesh","Rajasthan","Tamil Nadu","Kerala"
 ]
