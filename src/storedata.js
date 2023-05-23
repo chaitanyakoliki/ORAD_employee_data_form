@@ -39,14 +39,18 @@ export class Data extends LitElement {
 
             <div class="search">
             <form action="#">
+              
                 <input type="text" id="nameFilter" @input=${
                   this.filterByName
                 } placeholder="Search for names.." title="Type in a name" >
-                <!-- <button>
+                
+              
+            
+                 <!-- <button>
                     <i class="fa fa-search"
                         style="font-size: 18px; " >
                     </i>
-                </button>  -->
+                </button>  --->
 
             </form>
         </div> 
@@ -159,6 +163,7 @@ export class Data extends LitElement {
         item.name.toLowerCase().includes(filterValue)
       );
     }
+  
 
     this.requestUpdate();
   }

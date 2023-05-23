@@ -826,7 +826,9 @@ export class MyElement extends LitElement {
       const form = this.renderRoot.querySelector("form");
       localStorage.setItem("myFormData", JSON.stringify(this.empForm));
       localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
-     
+      //  const storeData = JSON.parse(localStorage.getItem('myFormData'))||[];
+      //  storeData.push(empdata);
+      //  localStorage.setItem('myFormData',JSON.stringify(this.empDataForm));
       form.reset();
       alert("Your response wes submitted");
     }
