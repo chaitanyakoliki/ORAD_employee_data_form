@@ -822,15 +822,16 @@ export class MyElement extends LitElement {
         city: this.empForm.city.value,
         zipcode: this.empForm.zipcode.value,
       };
-      this.empDataForm.push(empdata);
+      // this.empDataForm.push(empdata);
+      // const form = this.renderRoot.querySelector("form");
+      // localStorage.setItem("myFormData", JSON.stringify(this.empForm));
+      // localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
+      const Data = JSON.parse(localStorage.getItem('myFormData')) || [];
+      Data.push(empdata);
+      localStorage.setItem("myFormData", JSON.stringify(Data));
       const form = this.renderRoot.querySelector("form");
-      localStorage.setItem("myFormData", JSON.stringify(this.empForm));
-      localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
-      //  const storeData = JSON.parse(localStorage.getItem('myFormData'))||[];
-      //  storeData.push(empdata);
-      //  localStorage.setItem('myFormData',JSON.stringify(this.empDataForm));
       form.reset();
-      alert("Your response wes submitted");
+      alert("Your response was submitted");
     }
   }
 }
