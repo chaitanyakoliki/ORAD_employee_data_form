@@ -6,12 +6,11 @@ import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
 
-
 export class MyElement extends LitElement {
   static get properties() {
     return {
       empForm: { type: Object },
-      empDataForm:{type:Array},
+      empDataForm: { type: Array },
     };
   }
   //==============================================================
@@ -21,21 +20,20 @@ export class MyElement extends LitElement {
     this.empForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
       empCode: { value: "", isValidName: false, errorMessage: "" },
-      email:{value:"",isValidName:true},
+      email: { value: "", isValidName: true },
       phone: { value: "", isValidName: true },
       address: { value: "", isValidName: false, errorMessage: "" },
       address1: { value: "", isValidName: true },
       landmark: { value: "", isValidName: false, errorMessage: "" },
       zipcode: { value: "", isValidName: false, errorMessage: "" },
-      designation: { value: "", isValidName: false,errorMessage: ""  },
-      department: { value: "", isValidName: false,errorMessage: "" },
-      country: { value: "", isValidName:false,errorMessage: "" },
-      city: { value: "", isValidName:false,errorMessage: "" },
-      state: { value: "", isValidName:false,errorMessage: "" },
+      designation: { value: "", isValidName: false, errorMessage: "" },
+      department: { value: "", isValidName: false, errorMessage: "" },
+      country: { value: "", isValidName: false, errorMessage: "" },
+      city: { value: "", isValidName: false, errorMessage: "" },
+      state: { value: "", isValidName: false, errorMessage: "" },
     };
 
-
-    this.empDataForm=[];
+    this.empDataForm = [];
   }
 
   //=====================================================================
@@ -175,11 +173,10 @@ export class MyElement extends LitElement {
       <div id="bod">
         <div class="container">
           <div class="header">
-            <h2>EMPLOYEE  DATA FORM</h2>
+            <h2>EMPLOYEE DATA FORM</h2>
           </div>
-          
+
           <form @submit=${this.submit} class="form">
-          
             <div class="form-control">
               <label for="name-input"> EmpName:</label>
               <input
@@ -238,7 +235,6 @@ export class MyElement extends LitElement {
               />
               <p id="display">${this.empForm.phone.errorMessage}</p>
             </div>
-          
 
             <!------------------------------------------->
 
@@ -249,7 +245,9 @@ export class MyElement extends LitElement {
               <select
                 id="designation"
                 required
-                Select your option
+                Select
+                your
+                option
                 @input=${(e) => this.validateForm(e, "designation")}
                 style=${this.empForm.designation?.errorMessage
                   ? "border: solid 1px red;"
@@ -275,7 +273,7 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.department.errorMessage}</p>
             </div>
-          
+
             <!----------------------------------------------------->
 
             <div class="form-control">
@@ -387,7 +385,6 @@ export class MyElement extends LitElement {
             </div>
 
             <center><button type="submit" class="btn">Submit</button></center>
-          
           </form>
         </div>
       </div>
@@ -395,7 +392,6 @@ export class MyElement extends LitElement {
   }
   //===================================================================
 
-  
   //===============================================================
 
   validateForm(e, type) {
@@ -509,7 +505,6 @@ export class MyElement extends LitElement {
 
       //=============================================
 
-      
       //========================================
 
       case "designation": {
@@ -520,9 +515,7 @@ export class MyElement extends LitElement {
           },
         };
         const designationFormat = /--Select Your Designation--/;
-        if (
-          this.empForm.designation.value.match(designationFormat)
-        ) {
+        if (this.empForm.designation.value.match(designationFormat)) {
           this.empForm = {
             ...this.empForm,
             designation: {
@@ -531,7 +524,7 @@ export class MyElement extends LitElement {
               errorMessage: "Enter valid Designation name",
             },
           };
-        } else{
+        } else {
           this.empForm = {
             ...this.empForm,
             designation: {
@@ -553,9 +546,7 @@ export class MyElement extends LitElement {
           },
         };
         const departmentFormat = /--Select Your Department--/;
-        if (
-          this.empForm.department.value.match(departmentFormat)
-        ) {
+        if (this.empForm.department.value.match(departmentFormat)) {
           this.empForm = {
             ...this.empForm,
             department: {
@@ -564,7 +555,7 @@ export class MyElement extends LitElement {
               errorMessage: "Enter valid department name",
             },
           };
-        } else{
+        } else {
           this.empForm = {
             ...this.empForm,
             department: {
@@ -612,7 +603,7 @@ export class MyElement extends LitElement {
           // console.log(this.empForm.address);
           break;
         }
-        //=========================================================
+      //=========================================================
 
       case "addressLine2": {
         this.empForm = {
@@ -659,7 +650,7 @@ export class MyElement extends LitElement {
           // console.log(this.empForm.landmark);
           break;
         }
-        //======================================================
+      //======================================================
 
       case "country": {
         this.empForm = {
@@ -669,9 +660,7 @@ export class MyElement extends LitElement {
           },
         };
         const countryFormat = /--Select Your Country--/;
-        if (
-          this.empForm.country.value.match(countryFormat)
-        ) {
+        if (this.empForm.country.value.match(countryFormat)) {
           this.empForm = {
             ...this.empForm,
             country: {
@@ -680,7 +669,7 @@ export class MyElement extends LitElement {
               errorMessage: "Invalid country name",
             },
           };
-        } else{
+        } else {
           this.empForm = {
             ...this.empForm,
             country: {
@@ -702,9 +691,7 @@ export class MyElement extends LitElement {
           },
         };
         const stateFormat = /--Select Your State--/;
-        if (
-          this.empForm.state.value.match(stateFormat)
-        ) {
+        if (this.empForm.state.value.match(stateFormat)) {
           this.empForm = {
             ...this.empForm,
             state: {
@@ -713,7 +700,7 @@ export class MyElement extends LitElement {
               errorMessage: "Enter valid State name",
             },
           };
-        } else{
+        } else {
           this.empForm = {
             ...this.empForm,
             state: {
@@ -727,7 +714,6 @@ export class MyElement extends LitElement {
       }
       //=======================================================
 
-
       case "city": {
         this.empForm = {
           ...this.empForm,
@@ -736,9 +722,7 @@ export class MyElement extends LitElement {
           },
         };
         const cityFormat = /--Select Your City--/;
-        if (
-          this.empForm.city.value.match(cityFormat)
-        ) {
+        if (this.empForm.city.value.match(cityFormat)) {
           this.empForm = {
             ...this.empForm,
             city: {
@@ -747,7 +731,7 @@ export class MyElement extends LitElement {
               errorMessage: "Enter valid City name",
             },
           };
-        } else{
+        } else {
           this.empForm = {
             ...this.empForm,
             city: {
@@ -762,12 +746,12 @@ export class MyElement extends LitElement {
       //===================================================
 
       case "zipCode": {
-          this.empForm = {
-            ...this.empForm,
-            zipcode: {
-              value: `${e.target.value}`,
-            },
-          };
+        this.empForm = {
+          ...this.empForm,
+          zipcode: {
+            value: `${e.target.value}`,
+          },
+        };
         if (
           this.empForm.zipcode.value.length == 6 &&
           this.empForm.zipcode.value.length <= 8
@@ -810,7 +794,7 @@ export class MyElement extends LitElement {
       let empdata = {
         name: this.empForm.name.value,
         empCode: this.empForm.empCode.value,
-        email:this.empForm.email.value,
+        email: this.empForm.email.value,
         phone: this.empForm.phone.value,
         designation: this.empForm.designation.value,
         department: this.empForm.department.value,
@@ -826,7 +810,7 @@ export class MyElement extends LitElement {
       // const form = this.renderRoot.querySelector("form");
       // localStorage.setItem("myFormData", JSON.stringify(this.empForm));
       // localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
-      const Data = JSON.parse(localStorage.getItem('myFormData')) || [];
+      const Data = JSON.parse(localStorage.getItem("myFormData")) || [];
       Data.push(empdata);
       localStorage.setItem("myFormData", JSON.stringify(Data));
       const form = this.renderRoot.querySelector("form");
