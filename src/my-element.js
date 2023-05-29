@@ -5,6 +5,7 @@ import { department } from "./assets/department";
 import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
+// import {storedata} from "/src/storedata.js";
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -47,7 +48,8 @@ export class MyElement extends LitElement {
       justify-content:center;
       box-sizing:border box;
       animation: animate 20s ease infinite;
-      background-image: url("src/bg1bg1.jpg"); 
+      background-image: url("src/bg1bg1.jpg" ); 
+      
       margin:2px; 
       margin-left:5px;
       margin-right:5px;
@@ -55,7 +57,11 @@ export class MyElement extends LitElement {
       
       
     }
-     
+    /* #bod  background-image: url("src/bg1bg1.jpg" ); {
+      filter: blur(20px);
+      -webkit-filter: blur(8px);
+    }
+      */
     .header h2{
      
       font-family: Georgia, serif;
@@ -170,6 +176,7 @@ export class MyElement extends LitElement {
   //=================================================================
   render() {
     return html`
+     <!-- <data-store></data-store> -->
       <div id="bod">
         <div class="container">
           <div class="header">

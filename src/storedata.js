@@ -1,7 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 
-
 export class Data extends LitElement {
   static get properties() {
     return {
@@ -28,8 +27,8 @@ export class Data extends LitElement {
         
         <table id="myTable">
           
-            <h1> <marquee loop="-1" scrollamount="5" width="100%" >Employee Data Form </marquee> </h1>
-            <button  type="number" class="btn-sort" @click=${
+            <h1> <marquee loop="-1" scrollamount="5" width="100%" >Employee Details </marquee> </h1>
+            <button  type="text" class="btn-sort" @click=${
               this.sortitem
             }>Sort</button>
            
@@ -97,6 +96,8 @@ export class Data extends LitElement {
                     <button class="update" @click=${() => this.edit(index)}>
                       Edit
                     </button>
+                    <!-- <button class="button-56" role="button">Button 56</button> -->
+
                     &nbsp &nbsp
                     <button class="delete" @click=${() => this.delete(index)}>
                       Delete
@@ -163,7 +164,6 @@ export class Data extends LitElement {
         item.name.toLowerCase().includes(filterValue)
       );
     }
-  
 
     this.requestUpdate();
   }
@@ -212,7 +212,10 @@ export class Data extends LitElement {
         border: 1px solid black;
         border-collapse: collapse;
       }
-   
+      /* #myTable{
+        background-color:black;
+
+      } */
 
       #nameFilter {
         /* background-image: url("/src/bg.png"); */
@@ -252,11 +255,13 @@ export class Data extends LitElement {
       .update {
         margin: 7px;
         font-size: 17px;
+        color:#fbfcfc;
         width: 85px;
         margin-left: 35px;
         padding: 2px 16px;
         border-radius: 0.7rem;
-        background-image: linear-gradient(orange, pink);
+         background-image: linear-gradient(Black, blue); 
+        /* background-color:#080808; */
         box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
         transform: translate(0, -3px);
         transition: 0.2s;
@@ -266,17 +271,25 @@ export class Data extends LitElement {
         transform: translate(0, 0);
         border-bottom: 2px solid rgb(50, 50, 50);
       }
+
       .delete {
         margin-top: 5px;
         margin-left: 35px;
         font-size: 17px;
+        color:#f6fcfb;
         padding: 2px 16px;
         border-radius: 0.6rem;
-        background-image: linear-gradient(orange, pink);
+        /* background-image: linear-gradient(orange, pink); */
+        /* background-color:#0a0a0a; */
+        background-image: linear-gradient(Black, blue); 
         box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
         transform: translate(0, -3px);
         transition: 0.2s;
         transition-timing-function: linear;
+      }
+      .delete:active {
+        transform: translate(0, 0);
+        border-bottom: 2px solid rgb(50, 50, 50);
       }
 
       th,
@@ -316,7 +329,7 @@ export class Data extends LitElement {
       th {
         padding-top: 12px;
         padding-bottom: 12px;
-        background-color: #97cfcf;
+        background-color: #c18deb;
       }
 
       tr:hover {
@@ -326,16 +339,73 @@ export class Data extends LitElement {
         background-color: #e6eaf0;
       }
       .btn-sort {
-        position: absolute;
-        /* top:30px;
-        right:20px; */
+        /* position: absolute;
+       
         height: 42.5px;
         width: 100px;
         border-radius: 0.2rem;
         font-size: 17px;
         background-color: #eb2deb54;
+        margin-top: 1.5px; */
+      }
+      .btn-sort {
         margin-top: 1.5px;
-        /* margin-left:750px; */
+        align-items: center;
+        background-color: #3e337c;
+        border: 0px solid #111;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color: #f3f0f0;
+        cursor: pointer;
+        display: flex;
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        height: 38px;
+        justify-content: center;
+        line-height: 24px;
+        max-width: 80%;
+        padding: 0 25px;
+        position: absolute;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .btn-sort:after {
+        background-color: #111;
+        border-radius: 8px;
+        content: "";
+        display: block;
+        height: 38px;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        top: -2px;
+        transform: translate(8px, 8px);
+        transition: transform 0.2s ease-out;
+        z-index: -1;
+      }
+
+      .btn-sort:hover:after {
+        transform: translate(0, 0);
+      }
+
+      .btn-sort:active {
+        /* background-color: #ffdeda; */
+        background-color: #3e337c;
+        outline: 0;
+      }
+
+      .btn-sort :hover {
+        outline: 0;
+      }
+
+      @media (min-width: 768px) {
+        .btn-sort {
+          padding: 0 40px;
+        }
       }
     `;
   }

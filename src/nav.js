@@ -16,6 +16,7 @@ export class MyNav extends LitElement {
                 
                 <a href="index.html">Home</a>
                 <a href="data.html">Saved Data</a>
+                <!-- <a href="index.html">Saved Data</a> -->
             </div>
             </ul>
     </nav>`
@@ -23,13 +24,13 @@ export class MyNav extends LitElement {
     static get styles() {
         return css`
     #navbar{
-         background-color:#9d9e9e; 
+         background-color:#055a53; 
         /* background-color:#dbe2de; */
         height:60px;
-        padding:2px;
-        width:99%;
-        margin-left:5px;
-        margin-right:5px;
+        padding:1px;
+        width:100%;
+        margin-left:0px;
+        margin-right:0px;
 
 
     }
@@ -47,7 +48,7 @@ export class MyNav extends LitElement {
         padding:2px;
         font-size:19px;
         /* border-adius:5px; */
-        color:#5013dd; 
+        color:#f3f2f5; 
         font-weight: 500; 
     }
     #nav{
@@ -71,11 +72,11 @@ export class MyNav extends LitElement {
        
        
     } 
-    img{
+    /* img{
         height:32px;
         background-color:#0bdb58;
         
-    }
+    } */
    
     `
     }
