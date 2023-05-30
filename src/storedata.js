@@ -1,147 +1,126 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import "./my-element";
 
-export class Data extends LitElement {
+export class Userdata extends LitElement {
   static get properties() {
     return {
-      storeData: { type: Array },
+      savedData: { type: Array },
       index: { type: Number },
-      storeName: { type: String },
-      storeEmpCode: { type: String },
+      editData: { type: Object },
       ascending: { type: Boolean },
     };
   }
-  //==============================================================
 
   constructor() {
     super();
-    this.storeData = JSON.parse(localStorage.getItem("myFormData")) || [];
+    this.savedData = JSON.parse(localStorage.getItem("myFormData")) || [];
     this.index = -1;
-    this.storeName = "";
-    this.storeEmpCode = "";
+    this.editData = undefined;
     this.ascending = false;
   }
-  //==================================================================
+  //================================================================
+
+  //===================================================================
   render() {
     return html`
-        
-        <table id="myTable">
-          
-            <h1> <marquee loop="-1" scrollamount="5" width="100%" >Employee Details </marquee> </h1>
-            <button  type="text" class="btn-sort" @click=${
-              this.sortitem
-            }>Sort</button>
-           
-            <!-- <input type="text" id="nameFilter" @input=${
-              this.filterByName
-            } placeholder="Search for names.." title="Type in a name" > -->
+      <table id="myTable">
+        <h1>
+          <marquee loop="-1" scrollamount="5" width="100%"
+            >Employee Data Form
+          </marquee>
+        </h1>
+        <button type="text" class="btn-sort" @click=${this.sortitem}>
+          Sort
+        </button>
 
-            <div class="search">
-            <form action="#">
-              
-                <input type="text" id="nameFilter" @input=${
-                  this.filterByName
-                } placeholder="Search for names.." title="Type in a name" >
-                
-              
-            
-                 <!-- <button>
-                    <i class="fa fa-search"
-                        style="font-size: 18px; " >
-                    </i>
-                </button>  --->
+        <div class="search">
+          <form action="#">
+            <input
+              type="text"
+              id="nameFilter"
+              @input=${this.filterByName}
+              placeholder="Search for names.."
+              title="Type in a name"
+            />
+          </form>
+        </div>
 
-            </form>
-        </div> 
-       
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Empcode</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Address</th>
+            <th>Address1</th>
+            <th>Landmark</th>
+            <th>country</th>
+            <th>State</th>
+            <th>City</th>
+            <th>Zipcode</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <!---------------------------------------------------------->
+        ${this.editData
+          ? html` <dialog id="popUpForm">
+              <my-element
+                isEditing
+                .editData=${this.editData}
+                .savedData=${this.savedData}
+                ><button class="btn" @click=${this.cancelData}>
+                  Close
+                </button></my-element
+              >
+            </dialog>`
+          : nothing}
+        <!----------------------------------------------------------->
+        ${repeat(
+          this.savedData,
+          (item, index) => html`
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.empCode}</td>
+              <td>${item.email}</td>
+              <td>${item.phone}</td>
+              <td>${item.designation}</td>
+              <td>${item.department}</td>
+              <td>${item.address}</td>
+              <td>${item.address1}</td>
+              <td>${item.landmark}</td>
+              <td>${item.country}</td>
+              <td>${item.state}</td>
+              <td>${item.city}</td>
+              <td>${item.zipcode}</td>
+              <td id="btn">
+                <button class="update" @click=${() => this.updateitem(index)}>
+                  Update
+                </button>
+                <!-- <sl-button class="update" @click=${() => this.updateitem(index)}>Button</sl-button> -->
 
-
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th> Empcode</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th> Designation</th>
-                    <th> Department</th>
-                    <th> Address</th>
-                    <th> Address1</th>
-                    <th> Landmark</th>
-                    <th> country</th>
-                    <th> State</th>
-                    <th> City</th>
-                    <th>Zipcode</th>
-                    <th>Actions</th>
-
-                </tr>
-            </thead>
-            ${repeat(
-              this.storeData,
-              (item, index) => html`
-                <tr>
-                  <td>${item.name}</td>
-                  <td>${item.empCode}</td>
-                  <td>${item.email}</td>
-                  <td>${item.phone}</td>
-                  <td>${item.designation}</td>
-                  <td>${item.department}</td>
-                  <td>${item.address}</td>
-                  <td>${item.address1}</td>
-                  <td>${item.landmark}</td>
-                  <td>${item.country}</td>
-                  <td>${item.state}</td>
-                  <td>${item.city}</td>
-                  <td>${item.zipcode}</td>
-                  <td id="btn">
-                    <button class="update" @click=${() => this.edit(index)}>
-                      Edit
-                    </button>
-                    <!-- <button class="button-56" role="button">Button 56</button> -->
-
-                    &nbsp &nbsp
-                    <button class="delete" @click=${() => this.delete(index)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              `
-            )}
-        </table>
-
-
-        
-        <dialog id="display">
-        <form method="dialog">
-          <label id="n1">Name:<input
-            type="text"
-            id="name"
-            placeholder="Name"
-            value=${this.storeName}
-          /></label><br>
-          <label id="n1">Empcode:<input
-            type="text"
-            id="empCode"
-            placeholder="Employee Code"
-            value=${this.storeEmpCode}
-          /></label><br>
-          <center><button id="c1" @click=${
-            this.cancelData
-          }>Cancel</button><br><br>
-          <button id="s1" @click=${
-            this.updateData
-          } type="submit">Save</button><center>
-        </form>
-      </dialog>
-
-
-          
-        `;
+                &nbsp &nbsp
+                <button
+                  class="delete"
+                  @click=${() => this.deletecondition(index)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `
+        )}
+      </table>
+    `;
   }
-  //==========================================================
+
+  //===============================================================
   sortitem() {
     this.ascending = !this.ascending;
     const multiplier = this.ascending ? 1 : -1;
-    this.storeData.sort((x, y) => {
+    this.savedData.sort((x, y) => {
       const name1 = x.name.toLowerCase();
       const name2 = y.name.toLowerCase();
       if (name1 < name2) {
@@ -153,57 +132,54 @@ export class Data extends LitElement {
     });
     this.requestUpdate();
   }
-  //----------------------------------------------------
+  //==================================================
   filterByName(e) {
     e.preventDefault();
     const filterValue = e.target.value.toLowerCase();
-    this.storeData = JSON.parse(localStorage.getItem("myFormData")) || [];
+    this.savedData= JSON.parse(localStorage.getItem("myFormData")) || [];
 
     if (filterValue) {
-      this.storeData = this.storeData.filter((item) =>
+      this.savedData = this.savedData.filter((item) =>
         item.name.toLowerCase().includes(filterValue)
       );
     }
 
     this.requestUpdate();
   }
-  //----------------------------------------------------
-  edit(index) {
+  //===============================================================
+
+  updateitem(index) {
     this.index = index;
-    const items = this.storeData[index];
-    this.storeName = items.name;
-    this.storeEmpCode = items.empCode;
-    this.display();
+    const items = this.savedData[index];
+    this.editData = items;
+
+    requestAnimationFrame(() => {
+      this.popUpForm();
+    });
   }
-  display() {
-    const box = this.renderRoot.querySelector("#display");
-    box.showModal();
+  popUpForm() {
+    const popUp = this.renderRoot.querySelector("#popUpForm");
+    popUp.showModal();
   }
-  //-------------------------------------------------------
-  updateData(e) {
-    e.preventDefault();
-    const UpdatedName = this.shadowRoot.querySelector("#name").value;
-    const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
-    if (UpdatedName && UpdatedEmpCode) {
-      const items = this.storeData[this.index];
-      items.name = UpdatedName;
-      items.empCode = UpdatedEmpCode;
-      localStorage.setItem("myFormData", JSON.stringify(this.storeData));
-      window.location.reload();
-      this.requestUpdate();
-    }
-  }
+
   cancelData() {
+    this.editData = undefined;
+    const popUp = this.renderRoot.querySelector("#popUpForm");
+    popUp.close();
     window.location.reload();
   }
-  delete(index) {
-    this.storeData.splice(index, 1);
-    localStorage.setItem("myFormData", JSON.stringify(this.storeData));
-    alert("Your data is permanently deleted");
+
+  deletecondition(index) {
+    if (confirm("Are you sure you want to delete")) {
+      this.deleteitem(index);
+    }
+  }
+  deleteitem(index) {
+    this.savedData.splice(index, 1);
+    localStorage.setItem("myFormData", JSON.stringify(this.savedData));
     window.location.reload();
     this.requestUpdate();
   }
-
   static get styles() {
     return css`
       table,
@@ -239,7 +215,6 @@ export class Data extends LitElement {
         margin: 5px;
         background-color: #c7e45e5a;
       }
-
       #display {
         height: 200px;
         padding: 9px 16px;
@@ -255,12 +230,12 @@ export class Data extends LitElement {
       .update {
         margin: 7px;
         font-size: 17px;
-        color:#fbfcfc;
+        color: #fbfcfc;
         width: 85px;
         margin-left: 35px;
         padding: 2px 16px;
         border-radius: 0.7rem;
-         background-image: linear-gradient(Black, blue); 
+        background-image: linear-gradient(Black, blue);
         /* background-color:#080808; */
         box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
         transform: translate(0, -3px);
@@ -271,17 +246,16 @@ export class Data extends LitElement {
         transform: translate(0, 0);
         border-bottom: 2px solid rgb(50, 50, 50);
       }
-
       .delete {
         margin-top: 5px;
         margin-left: 35px;
         font-size: 17px;
-        color:#f6fcfb;
+        color: #f6fcfb;
         padding: 2px 16px;
         border-radius: 0.6rem;
         /* background-image: linear-gradient(orange, pink); */
         /* background-color:#0a0a0a; */
-        background-image: linear-gradient(Black, blue); 
+        background-image: linear-gradient(Black, blue);
         box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
         transform: translate(0, -3px);
         transition: 0.2s;
@@ -291,7 +265,6 @@ export class Data extends LitElement {
         transform: translate(0, 0);
         border-bottom: 2px solid rgb(50, 50, 50);
       }
-
       th,
       td {
         padding: 0px;
@@ -315,7 +288,6 @@ export class Data extends LitElement {
         border-radius: 0.9rem;
         background-image: linear-gradient(green, white);
       }
-
       table {
         /* margin:5px; */
         /* width:99%;  */
@@ -331,23 +303,13 @@ export class Data extends LitElement {
         padding-bottom: 12px;
         background-color: #c18deb;
       }
-
       tr:hover {
         background-color: #72d35550;
       }
       tr:nth-child(even) {
         background-color: #e6eaf0;
       }
-      .btn-sort {
-        /* position: absolute;
-       
-        height: 42.5px;
-        width: 100px;
-        border-radius: 0.2rem;
-        font-size: 17px;
-        background-color: #eb2deb54;
-        margin-top: 1.5px; */
-      }
+
       .btn-sort {
         margin-top: 1.5px;
         align-items: center;
@@ -372,7 +334,6 @@ export class Data extends LitElement {
         -webkit-user-select: none;
         touch-action: manipulation;
       }
-
       .btn-sort:after {
         background-color: #111;
         border-radius: 8px;
@@ -397,18 +358,51 @@ export class Data extends LitElement {
         background-color: #3e337c;
         outline: 0;
       }
-
       .btn-sort :hover {
         outline: 0;
       }
-
       @media (min-width: 768px) {
         .btn-sort {
           padding: 0 40px;
         }
       }
+      .btn {
+        border-radius: 100px;
+        box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+          rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+          rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+          rgba(44, 187, 99, 0.15) 0 16px 32px;
+        color: green;
+        /* cursor: pointer; */
+        display: inline-block;
+
+        padding: 7px 20px;
+        text-align: center;
+        text-decoration: none;
+        transition: all 250ms;
+        border: 0;
+        font-size: 16px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        font-weight: bold;
+
+        font-family: "Mulish", sans-serif;
+        width: 75%;
+        margin-left: 47px;
+        margin-top: 10px;
+      }
+      .btn:hover {
+        background: linear-gradient(to right, #e689e1, #31e482);
+      }
+      #popUpForm {
+        border: none;
+        outline: none;
+        width: 70%;
+        height: 70%;
+        padding: 0px;
+      }
     `;
   }
 }
-
-window.customElements.define("data-store", Data);
+window.customElements.define("data-store", Userdata);

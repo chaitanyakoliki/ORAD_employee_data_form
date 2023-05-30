@@ -5,24 +5,28 @@ import { department } from "./assets/department";
 import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
-// import {storedata} from "/src/storedata.js";
 
 export class MyElement extends LitElement {
   static get properties() {
     return {
       empForm: { type: Object },
-      empDataForm: { type: Array },
+      EmailChecked: { type: String },
+      PhoneChecked: { type: String },
+      EmpFormData: { type: Array },
+      isEditing: { type: Boolean },
+      editData: { type: Object },
+      savedData: { type: Array },
     };
   }
-  //==============================================================
 
   constructor() {
     super();
+
     this.empForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
       empCode: { value: "", isValidName: false, errorMessage: "" },
-      email: { value: "", isValidName: true },
-      phone: { value: "", isValidName: true },
+      email: { value: "", isValidName: false, errorMessage: "" },
+      phone: { value: "", isValidName: false, errorMessage: "" },
       address: { value: "", isValidName: false, errorMessage: "" },
       address1: { value: "", isValidName: true },
       landmark: { value: "", isValidName: false, errorMessage: "" },
@@ -33,14 +37,13 @@ export class MyElement extends LitElement {
       city: { value: "", isValidName: false, errorMessage: "" },
       state: { value: "", isValidName: false, errorMessage: "" },
     };
-
-    this.empDataForm = [];
+    this.EmpFormData = [];
+    this.isEditing = false;
   }
-
-  //=====================================================================
 
   static get styles() {
     return css`
+   
     #bod{
       display:flex;
       flex-direction:column;
@@ -57,22 +60,18 @@ export class MyElement extends LitElement {
       
       
     }
-    /* #bod  background-image: url("src/bg1bg1.jpg" ); {
-      filter: blur(20px);
-      -webkit-filter: blur(8px);
-    }
-      */
+    
     .header h2{
      
-      font-family: Georgia, serif;
-      font-size:30px;
-      text-transform:uppercase;
-      text-align:center;
-      /* background: -webkit-linear-gradient(#6a11cb, #2575fc );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; */
-    }
-    .header {
+     font-family: Georgia, serif;
+     font-size:30px;
+     text-transform:uppercase;
+     text-align:center;
+     /* background: -webkit-linear-gradient(#6a11cb, #2575fc );
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent; */
+   }
+   .header {
       padding:10px 0;
       background-image: linear-gradient(120deg, #0bdb58 0%, #0f9ee6 100%);
     }
@@ -119,36 +118,36 @@ export class MyElement extends LitElement {
     }
     .form .btn {
      
-      border-radius: 100px;
-      box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-      color: green;
-      /* cursor: pointer; */
-      display: inline-block;
-      
-      padding: 7px 20px;
-      text-align: center;
-      text-decoration: none;
-      transition: all 250ms;
-      border: 0;
-      font-size: 16px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      font-weight:bold;
-      
-      font-family: 'Mulish', sans-serif;
-      width:75%;
+     border-radius: 100px;
+     box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+     color: green;
+     /* cursor: pointer; */
+     display: inline-block;
+     
+     padding: 7px 20px;
+     text-align: center;
+     text-decoration: none;
+     transition: all 250ms;
+     border: 0;
+     font-size: 16px;
+     user-select: none;
+     -webkit-user-select: none;
+     touch-action: manipulation;
+     font-weight:bold;
+     
+     font-family: 'Mulish', sans-serif;
+     width:75%;
 
-    }
-    .form .btn:hover{
+   }
+   .form .btn:hover{
       
-       background:linear-gradient(to right,#e689e1,	#31e482); 
-    }
-  
-    #display{
-      color:red;
-    }
-    input{
+      background:linear-gradient(to right,#e689e1,	#31e482); 
+   }
+ 
+   #display{
+     color:red;
+   }
+   input{
       width:96.5%;
       padding: 7px 20px;
       box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
@@ -171,19 +170,160 @@ export class MyElement extends LitElement {
       justify-content:center;
       display:flex;
     }
+
 `;
   }
-  //=================================================================
+
+  // loop to get the data in the input field
+  firstUpdated() {
+    if (this.isEditing) {
+      console.log("is editing");
+      console.log("from form component", this.editData);
+      console.log(this.editData);
+      const fields = {
+        "#name-input": "name",
+        "#empcode-input": "empCode",
+        "#email-input": "email",
+        "#adline1": "address",
+        "#adline2": "address1",
+        "#landmark": "landmark",
+        "#designation": "designation",
+        "#department": "department",
+        "#country": "country",
+        "#city": "city",
+        "#state": "state",
+      };
+
+      for (const fieldId in fields) {
+        const inputField = this.renderRoot.querySelector(fieldId);
+        inputField.value = this.editData[fields[fieldId]];
+        // console.log(fields[fieldId]);
+      }
+      this.renderRoot.querySelector("#phone-input").value = this.editData.phone;
+      // console.log(this.editData.phone);
+      this.renderRoot.querySelector("#zip").value = Number(
+        this.editData.zipcode
+      );
+      // run a function to pre-fill form
+    } else {
+      console.log("creating new");
+    }
+  }
+
+  decider(e, type) {
+    if (this.isEditing) {
+      switch (type) {
+        case "empName":
+          {
+            this.editData.name = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "empCode":
+          {
+            this.editData.empCode = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "email":
+          {
+            this.editData.email = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "address":
+          {
+            this.editData.address = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "address1":
+          {
+            this.editData.address1 = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "landmark":
+          {
+            this.editData.landmark = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "designation":
+          {
+            this.editData.designation = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "department":
+          {
+            this.editData.department = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "country":
+          {
+            this.editData.country = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "city":
+          {
+            this.editData.city = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "state":
+          {
+            this.editData.state = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "phone":
+          {
+            this.editData.phone = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+        case "zipCode":
+          {
+            this.editData.zipcode = e.target.value;
+            console.log(this.editData);
+            this.validateForm(e, type);
+          }
+          break;
+      }
+    } else {
+      this.validateForm(e, type);
+    }
+  }
+
   render() {
     return html`
-     <!-- <data-store></data-store> -->
       <div id="bod">
         <div class="container">
           <div class="header">
             <h2>EMPLOYEE DATA FORM</h2>
           </div>
+          <!----------------------------------------------->
 
-          <form @submit=${this.submit} class="form">
+          <form
+            class="form"
+            @submit=${this.isEditing ? this.updateData : this.submit}
+          >
+            <!------------------------------------------------->
             <div class="form-control">
               <label for="name-input"> EmpName:</label>
               <input
@@ -192,14 +332,14 @@ export class MyElement extends LitElement {
                 required
                 autocomplete="off"
                 placeholder="Enter your Fullname "
-                @input=${(e) => this.validateForm(e, "empName")}
+                @input=${(e) => this.decider(e, "empName")}
                 style=${this.empForm.name?.errorMessage
                   ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  : ""}
               />
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
-            <!---------------------------------------->
+            <!------------------------------------------>
 
             <div class="form-control">
               <label for="empcode-input">EmpCode:</label>
@@ -207,46 +347,60 @@ export class MyElement extends LitElement {
                 id="empcode-input"
                 required
                 placeholder="Enter your Employee code"
-                @input=${(e) => this.validateForm(e, "empCode")}
+                @input=${(e) => this.decider(e, "empCode")}
                 style=${this.empForm.empCode?.errorMessage
                   ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  : ""}
               />
               <p id="display">${this.empForm.empCode.errorMessage}</p>
             </div>
-            <!----------------------------------------------------->
+            <!------------------------------------------------->
+
             <div class="form-control">
-              <label>Email:</label>
+              <label for="email-input">Email:</label>
+
               <input
-                id="email"
-                placeholder="Enter your mail id"
-                autocomplete="off"
-                @input=${(e) => this.validateForm(e, "Email")}
+                id="email-input"
+                placeholder="Enter your Email id"
+                required
+                @input=${(e) => this.decider(e, "email")}
                 style=${this.empForm.email?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  ? "border: solid 3px red;"
+                  : ""}
               />
               <p id="display">${this.empForm.email.errorMessage}</p>
             </div>
             <!-------------------------------------------->
+
             <div class="form-control">
-              <label>Phone Num:</label>
-              <input
-                id="phone"
-                placeholder="phone"
-                autocomplete="off"
-                @input=${(e) => this.validateForm(e, "Phone")}
-                style=${this.empForm.phone?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
-              />
-              <p id="display">${this.empForm.phone.errorMessage}</p>
+              <label for="phone-input">Phone Number*</label>
+
+              ${!this.isEditing
+                ? html`<input
+                      type="Number"
+                      id="phone-input"
+                      placeholder="Enter your phone"
+                      autocomplete="off"
+                      required
+                      @input=${(e) => this.decider(e, "phone")}
+                      style=${this.empForm.phone?.errorMessage
+                        ? "border: solid 3px red;"
+                        : ""}
+                    />
+                    <p id="display">${this.empForm.phone.errorMessage}</p>`
+                : html`<input
+                      id="phone-input"
+                      placeholder="Enter your phone"
+                      autocomplete="off"
+                      required
+                      @input=${(e) => this.decider(e, "phone")}
+                      style=${this.empForm.phone?.errorMessage
+                        ? "border: solid 3px red;"
+                        : ""}
+                    />
+                    <p id="display">${this.empForm.phone.errorMessage}</p>`}
             </div>
-
-            <!------------------------------------------->
-
-            <!-------------------------------------------------->
-
+            <!---------------------------------------->
             <div class="form-control">
               <label>Designation:</label>
               <select
@@ -255,7 +409,7 @@ export class MyElement extends LitElement {
                 Select
                 your
                 option
-                @input=${(e) => this.validateForm(e, "designation")}
+                @input=${(e) => this.decider(e, "designation")}
                 style=${this.empForm.designation?.errorMessage
                   ? "border: solid 1px red;"
                   : ""}
@@ -264,24 +418,23 @@ export class MyElement extends LitElement {
               </select>
               <p id="display">${this.empForm.designation.errorMessage}</p>
             </div>
-            <!--------------------------------------------------->
+            <!-------------------------------------------------->
 
             <div class="form-control">
               <label>Department:</label>
               <select
                 id="department"
                 required
-                @input=${(e) => this.validateForm(e, "department")}
+                @input=${(e) => this.decider(e, "department")}
                 style=${this.empForm.department?.errorMessage
-                  ? "border: solid 1px red;"
+                  ? "border: solid 4px red;"
                   : ""}
               >
                 ${repeat(department, (e) => html`<option>${e}</option>`)}
               </select>
               <p id="display">${this.empForm.department.errorMessage}</p>
             </div>
-
-            <!----------------------------------------------------->
+            <!----------------------------------------------->
 
             <div class="form-control">
               <label>Address line 1:</label>
@@ -290,90 +443,90 @@ export class MyElement extends LitElement {
                 placeholder="Enter your Address"
                 required
                 autocomplete="off"
-                @input=${(e) => this.validateForm(e, "addressLine1")}
+                @input=${(e) => this.decider(e, "addressLine1")}
                 style=${this.empForm.address?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  ? "border: solid 3px red;"
+                  : ""}
               />
             </div>
-            <!-------------------------------------------------------->
+            <!------------------------------------------------>
             <div class="form-control">
-              <label>Address line 2:</label>
+              <label>Address line 2</label>
               <input
                 id="adline2"
                 placeholder="optional"
                 autocomplete="off"
-                @input=${(e) => this.validateForm(e, "addressLine2")}
+                @input=${(e) => this.decider(e, "addressLine2")}
                 style=${this.empForm.address?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  ? "border: solid 3px red;"
+                  : ""}
               />
               <p id="display">${this.empForm.address.errorMessage}</p>
             </div>
-            <!----------------------------------------------------------->
+            <!-------------------------------------------------->
 
             <div class="form-control">
-              <label>Landmark</label>
+              <label>Landmark:</label>
               <input
                 id="landmark"
                 required
                 type="text"
                 placeholder="Enter your Landmark"
-                @input=${(e) => this.validateForm(e, "landmark")}
+                @input=${(e) => this.decider(e, "landmark")}
                 style=${this.empForm.landmark?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  ? "border: solid 3px red;"
+                  : ""}
               />
               <p id="display">${this.empForm.landmark.errorMessage}</p>
             </div>
-            <!-------------------------------------------------------->
+            <!--------------------------------------------------->
 
             <div class="form-control">
-              <label>Country</label>
+              <label>Country:</label>
               <select
                 id="country"
                 required
-                @input=${(e) => this.validateForm(e, "country")}
+                @input=${(e) => this.decider(e, "country")}
                 style=${this.empForm.country?.errorMessage
-                  ? "border: solid 1px red;"
+                  ? "border: solid 3px red;"
                   : ""}
               >
                 ${repeat(country, (e) => html` <option>${e}</option>`)}
               </select>
               <p id="display">${this.empForm.country.errorMessage}</p>
             </div>
-            <!----------------------------------------------->
+            <!-------------------------------------------------->
             <div class="form-control">
               <label>State:</label>
               <select
                 id="state"
                 required
-                @input=${(e) => this.validateForm(e, "state")}
+                @input=${(e) => this.decider(e, "state")}
                 style=${this.empForm.state?.errorMessage
-                  ? "border: solid 1px red;"
+                  ? "border: solid 3px red;"
                   : ""}
               >
                 ${repeat(state, (e) => html` <option>${e}</option>`)}
               </select>
               <p id="display">${this.empForm.state.errorMessage}</p>
             </div>
-            <!------------------------------------------->
+            <!-------------------------------------------------->
 
             <div class="form-control">
               <label>City:</label>
               <select
                 id="city"
                 required
-                @input=${(e) => this.validateForm(e, "city")}
+                @input=${(e) => this.decider(e, "city")}
                 style=${this.empForm.city?.errorMessage
-                  ? "border: solid 1px red;"
+                  ? "border: solid 3px red;"
                   : ""}
               >
                 ${repeat(city, (e) => html` <option>${e}</option>`)}
               </select>
               <p id="display">${this.empForm.city.errorMessage}</p>
             </div>
-            <!------------------------------------------>
+            <!--------------------------------------------------->
 
             <div class="form-control">
               <label>Zip Code:</label>
@@ -383,245 +536,279 @@ export class MyElement extends LitElement {
                 required
                 placeholder="Enter your pincode"
                 autocomplete="off"
-                @input=${(e) => this.validateForm(e, "zipCode")}
+                @input=${(e) => this.decider(e, "zipCode")}
                 style=${this.empForm.zipcode?.errorMessage
-                  ? "border: solid 1px red;"
-                  : "height:13px;"}
+                  ? "border: solid 3px red;"
+                  : ""}
               />
               <p id="display">${this.empForm.zipcode.errorMessage}</p>
             </div>
+            <!---------------------------------------------------->
 
-            <center><button type="submit" class="btn">Submit</button></center>
+            <center>
+              ${!this.isEditing
+                ? html`<button class="btn" type="submit">Submit</button>`
+                : html`<button class="btn" type="submit">Update</button>`}
+            </center>
+            <slot></slot>
           </form>
         </div>
       </div>
     `;
   }
-  //===================================================================
 
-  //===============================================================
+  updateData(e) {
+    e.preventDefault();
+
+    const editvalidationFields = [
+      "name",
+      "empCode",
+      "email",
+      "phone",
+      "department",
+      "address",
+      "landmark",
+      "zipcode",
+    ];
+
+    const isValid = editvalidationFields.every(
+      (field) => this.empForm[field].errorMessage === ""
+    );
+
+    if (isValid) {
+      localStorage.setItem("myFormData", JSON.stringify(this.savedData));
+      window.location.reload();
+    }
+  }
 
   validateForm(e, type) {
     switch (type) {
-      case "empName": {
-        //value will be restored in the begining when entered to json
-        this.empForm = {
-          ...this.empForm,
-          name: {
-            value: `${e.target.value} `,
-            isValidName: false,
-          },
-        };
-
-        if (this.empForm.name.value.length > 7) {
-          console.log(this.empForm.name);
+      case "empName":
+        {
+          //value will be restored in the begining when entered to json
           this.empForm = {
             ...this.empForm,
             name: {
               value: `${e.target.value} `,
               isValidName: false,
-              errorMessage: "Username can't exceed 7 characters",
             },
           };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            name: {
-              value: `${e.target.value} `,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-          console.log(this.empForm.name);
+
+          if (this.empForm.name.value.length > 7) {
+            console.log(this.empForm.name);
+            this.empForm = {
+              ...this.empForm,
+              name: {
+                value: `${e.target.value} `,
+                isValidName: false,
+                errorMessage: "Username can't exceed 7 characters",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              name: {
+                value: `${e.target.value} `,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+            console.log(this.empForm.name);
+          }
         }
         break;
-      }
-      //=================================================
-
-      case "empCode": {
-        this.empForm = {
-          ...this.empForm,
-          empCode: {
-            value: `${e.target.value} `,
-            isValidName: false,
-            errorMessage: "",
-          },
-        };
-
-        if (this.empForm.empCode.value.length > 8) {
-          this.empForm = {
-            ...this.empForm,
-            empCode: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "Maximum length exceeded",
-            },
-          };
-        } else if (
-          (this.empForm.empCode.value.length == 8 &&
-            this.empForm.empCode.value.match(/[0-9]{6}[A-Z]/)) ||
-          this.empForm.empCode.value.match(/[0-9]{5}[A-Z][0-9]/) ||
-          this.empForm.empCode.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
-          this.empForm.empCode.value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
-          this.empForm.empCode.value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
-          this.empForm.empCode.value.match(/[0-9][A-Z][0-9]{5}/) ||
-          this.empForm.empCode.value.match(/[A-Z][0-9]{6}/)
-        ) {
-          // console.log(this.empForm.email);
-          this.empForm = {
-            ...this.empForm,
-            empCode: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            empCode: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "Enter Valid Emp Code",
-            },
-          };
-          // console.log(this.empForm.empCode);
-        }
-        break;
-      }
       //===================================================
-      case "Email": {
-        this.empForm = {
-          ...this.empForm,
-          email: {
-            value: `${e.target.value} `,
-          },
-        };
-        break;
-      }
-      //=========================================================================
-      case "Phone": {
-        this.empForm = {
-          ...this.empForm,
-          phone: {
-            value: `${e.target.value} `,
-          },
-        };
-        break;
-      }
 
-      //=============================================
-
-      //========================================
-
-      case "designation": {
-        this.empForm = {
-          ...this.empForm,
-          designation: {
-            value: `${e.target.value} `,
-          },
-        };
-        const designationFormat = /--Select Your Designation--/;
-        if (this.empForm.designation.value.match(designationFormat)) {
-          this.empForm = {
-            ...this.empForm,
-            designation: {
-              value: "",
-              isValidName: false,
-              errorMessage: "Enter valid Designation name",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            designation: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-        }
-        break;
-      }
-      //==========================================
-
-      case "department": {
-        this.empForm = {
-          ...this.empForm,
-          department: {
-            value: `${e.target.value} `,
-          },
-        };
-        const departmentFormat = /--Select Your Department--/;
-        if (this.empForm.department.value.match(departmentFormat)) {
-          this.empForm = {
-            ...this.empForm,
-            department: {
-              value: "",
-              isValidName: false,
-              errorMessage: "Enter valid department name",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            department: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-        }
-        break;
-      }
-      //====================================================
-
-      case "addressLine1":
+      case "empCode":
         {
           this.empForm = {
             ...this.empForm,
-            address: {
-              value: `${e.target.value}`,
-            },
-          };
-        }
-        if (
-          this.empForm.address.value === "" ||
-          this.empForm.address.value.length > 80
-        ) {
-          // console.log(this.empForm.address);
-          this.empForm = {
-            ...this.empForm,
-            address: {
+            empCode: {
               value: `${e.target.value} `,
               isValidName: false,
-              errorMessage: "Please enter a valid Address",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            address: {
-              value: `${e.target.value} `,
-              isValidName: true,
               errorMessage: "",
             },
           };
-          // console.log(this.empForm.address);
-          break;
-        }
-      //=========================================================
 
-      case "addressLine2": {
-        this.empForm = {
-          ...this.empForm,
-          address1: {
-            value: `Optional Address:${e.target.value} `,
-          },
-        };
+          if (this.empForm.empCode.value.length > 8) {
+            this.empForm = {
+              ...this.empForm,
+              empCode: {
+                value: `${e.target.value} `,
+                isValidName: false,
+                errorMessage: "Maximum length exceeded",
+              },
+            };
+          } else if (
+            (this.empForm.empCode.value.length == 8 &&
+              this.empForm.empCode.value.match(/[0-9]{6}[A-Z]/)) ||
+            this.empForm.empCode.value.match(/[0-9]{5}[A-Z][0-9]/) ||
+            this.empForm.empCode.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
+            this.empForm.empCode.value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
+            this.empForm.empCode.value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
+            this.empForm.empCode.value.match(/[0-9][A-Z][0-9]{5}/) ||
+            this.empForm.empCode.value.match(/[A-Z][0-9]{6}/)
+          ) {
+            // console.log(this.empForm.email);
+            this.empForm = {
+              ...this.empForm,
+              empCode: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              empCode: {
+                value: `${e.target.value} `,
+                isValidName: false,
+                errorMessage: "Enter Valid Emp Code",
+              },
+            };
+            // console.log(this.empForm.empCode);
+          }
+        }
         break;
-      }
-      //================================================
+      //============================================================
+      case "email":
+        {
+          this.empForm = {
+            ...this.empForm,
+            email: {
+              value: `${e.target.value} `,
+              // isValidName: false,
+              // errorMessage: "",
+            },
+          };
+        }
+        break;
+      //========================================================
+
+      case "phone":
+        {
+          this.empForm = {
+            ...this.empForm,
+            phone: {
+              value: `${e.target.value} `,
+              // isValidName: false,
+            },
+          };
+        }
+        break;
+      //=================================================
+
+      case "designation":
+        {
+          this.empForm = {
+            ...this.empForm,
+            designation: {
+              value: `${e.target.value} `,
+            },
+          };
+          const designationFormat = /--Select Your Designation--/;
+          if (this.empForm.designation.value.match(designationFormat)) {
+            this.empForm = {
+              ...this.empForm,
+              designation: {
+                value: "",
+                isValidName: false,
+                errorMessage: "Enter valid Designation name",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              designation: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
+        }
+        break;
+      //==================================================
+
+      case "department":
+        {
+          this.empForm = {
+            ...this.empForm,
+            department: {
+              value: `${e.target.value} `,
+            },
+          };
+          const departmentFormat = /--Select Your Department--/;
+          if (this.empForm.department.value.match(departmentFormat)) {
+            this.empForm = {
+              ...this.empForm,
+              department: {
+                value: "",
+                isValidName: false,
+                errorMessage: "Enter valid department name",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              department: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
+        }
+        break;
+      //==========================================================
+
+      case "addressLine1":
+        {
+          {
+            this.empForm = {
+              ...this.empForm,
+              address: {
+                value: `${e.target.value}`,
+              },
+            };
+          }
+          if (
+            this.empForm.address.value === "" ||
+            this.empForm.address.value.length > 80
+          ) {
+            this.empForm = {
+              ...this.empForm,
+              address: {
+                value: `${e.target.value} `,
+                isValidName: false,
+                errorMessage: "Please enter a valid Address",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              address: {
+                value: `${e.target.value} `,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
+        }
+        break;
+      //===================================================
+      case "addressLine2":
+        {
+          this.empForm = {
+            ...this.empForm,
+            address1: {
+              value: `${e.target.value} (optional)`,
+            },
+          };
+        }
+        break;
+      //======================================================
 
       case "landmark":
         {
@@ -636,7 +823,6 @@ export class MyElement extends LitElement {
           this.empForm.landmark.value === "" ||
           this.empForm.landmark.value.length > 50
         ) {
-          // console.log(this.empForm.landmark);
           this.empForm = {
             ...this.empForm,
             landmark: {
@@ -654,145 +840,150 @@ export class MyElement extends LitElement {
               errorMessage: "",
             },
           };
-          // console.log(this.empForm.landmark);
-          break;
         }
-      //======================================================
+        break;
+      //==================================================
 
-      case "country": {
-        this.empForm = {
-          ...this.empForm,
-          country: {
-            value: `${e.target.value} `,
-          },
-        };
-        const countryFormat = /--Select Your Country--/;
-        if (this.empForm.country.value.match(countryFormat)) {
+      case "country":
+        {
           this.empForm = {
             ...this.empForm,
             country: {
-              value: "",
-              isValidName: false,
-              errorMessage: "Invalid country name",
+              value: `${e.target.value} `,
             },
           };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            country: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
+          const countryFormat = /--Select Your Country--/;
+          if (this.empForm.country.value.match(countryFormat)) {
+            this.empForm = {
+              ...this.empForm,
+              country: {
+                value: "",
+                isValidName: false,
+                errorMessage: "Invalid country name",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              country: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
         }
         break;
-      }
-      //======================================================
-
-      case "state": {
-        this.empForm = {
-          ...this.empForm,
-          state: {
-            value: `${e.target.value} `,
-          },
-        };
-        const stateFormat = /--Select Your State--/;
-        if (this.empForm.state.value.match(stateFormat)) {
-          this.empForm = {
-            ...this.empForm,
-            state: {
-              value: "",
-              isValidName: false,
-              errorMessage: "Enter valid State name",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            state: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-        }
-        break;
-      }
-      //=======================================================
-
-      case "city": {
-        this.empForm = {
-          ...this.empForm,
-          city: {
-            value: `${e.target.value} `,
-          },
-        };
-        const cityFormat = /--Select Your City--/;
-        if (this.empForm.city.value.match(cityFormat)) {
-          this.empForm = {
-            ...this.empForm,
-            city: {
-              value: "",
-              isValidName: false,
-              errorMessage: "Enter valid City name",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            city: {
-              value: `${e.target.value}`,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-        }
-        break;
-      }
       //===================================================
 
-      case "zipCode": {
-        this.empForm = {
-          ...this.empForm,
-          zipcode: {
-            value: `${e.target.value}`,
-          },
-        };
-        if (
-          this.empForm.zipcode.value.length == 6 &&
-          this.empForm.zipcode.value.length <= 8
-        ) {
-          // console.log(this.empForm.zipcode);
+      case "state":
+        {
           this.empForm = {
             ...this.empForm,
-            zipcode: {
+            state: {
               value: `${e.target.value} `,
-              isValidName: true,
-              errorMessage: "",
             },
           };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            zipcode: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "please enter a valid Zip Code",
-            },
-          };
-          break;
+          const stateFormat = /--Select Your State--/;
+          if (this.empForm.state.value.match(stateFormat)) {
+            this.empForm = {
+              ...this.empForm,
+              state: {
+                value: "",
+                isValidName: false,
+                errorMessage: "Enter valid State name",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              state: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
         }
-      }
+        break;
+      //==================================================
+
+      case "city":
+        {
+          this.empForm = {
+            ...this.empForm,
+            city: {
+              value: `${e.target.value} `,
+            },
+          };
+          const cityFormat = /--Select Your City--/;
+          if (this.empForm.city.value.match(cityFormat)) {
+            this.empForm = {
+              ...this.empForm,
+              city: {
+                value: "",
+                isValidName: false,
+                errorMessage: "Enter valid City name",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              city: {
+                value: `${e.target.value}`,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          }
+        }
+        break;
+      //======================================================
+
+      case "zipCode":
+        {
+          this.empForm = {
+            ...this.empForm,
+            zipcode: {
+              value: `${e.target.value}`,
+            },
+          };
+          if (
+            this.empForm.zipcode.value.length == 6 &&
+            this.empForm.zipcode.value.length <= 8
+          ) {
+            // console.log(this.empForm.zipcode);
+            this.empForm = {
+              ...this.empForm,
+              zipcode: {
+                value: `${e.target.value} `,
+                isValidName: true,
+                errorMessage: "",
+              },
+            };
+          } else {
+            this.empForm = {
+              ...this.empForm,
+              zipcode: {
+                value: `${e.target.value} `,
+                isValidName: false,
+                errorMessage: "please enter a valid Zip Code",
+              },
+            };
+          }
+        }
+        break;
     }
   }
+  //===============================================
 
   submit(e) {
     e.preventDefault();
     if (
       this.empForm.name.isValidName === true &&
       this.empForm.empCode.isValidName === true &&
-      // this.empForm.phone.isValidName==true&&
+      // this.empForm.email.isValidName === true &&
+      // this.empForm.phone.isValidName === true &&
       this.empForm.department.isValidName === true &&
       this.empForm.address.isValidName === true &&
       this.empForm.landmark.isValidName === true &&
@@ -813,17 +1004,16 @@ export class MyElement extends LitElement {
         city: this.empForm.city.value,
         zipcode: this.empForm.zipcode.value,
       };
-      // this.empDataForm.push(empdata);
-      // const form = this.renderRoot.querySelector("form");
-      // localStorage.setItem("myFormData", JSON.stringify(this.empForm));
-      // localStorage.setItem("myFormData", JSON.stringify(this.empDataForm));
+
       const Data = JSON.parse(localStorage.getItem("myFormData")) || [];
       Data.push(empdata);
       localStorage.setItem("myFormData", JSON.stringify(Data));
       const form = this.renderRoot.querySelector("form");
+      this.empForm.address1.value = "";
       form.reset();
-      alert("Your response was submitted");
+      alert("Form submitted Successfully into local storage");
     }
   }
 }
+
 window.customElements.define("my-element", MyElement);
