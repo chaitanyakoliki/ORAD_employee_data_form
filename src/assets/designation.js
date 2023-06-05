@@ -1,4 +1,4 @@
 export const designation=[
-    "--Select Your Designation--","Junior Associate","Reports and Insights","Graduate Trainee","HR Assistant",
+    "Junior_Associate","Reports_and_Insights","Graduate_Trainee","HR_Assistant",
 ]
 

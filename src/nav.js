@@ -24,8 +24,9 @@ export class MyNav extends LitElement {
     static get styles() {
         return css`
     #navbar{
-         background-color:#055a53; 
+         /* background-color:#055a53;  */
         /* background-color:#dbe2de; */
+        background-color:var(--sl-color-neutral-600);
         height:60px;
         padding:1px;
         width:100%;

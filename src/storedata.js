@@ -1,6 +1,10 @@
 import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element";
+import "@shoelace-style/shoelace/dist/themes/dark.css";
+// import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+// import '@shoelace-style/shoelace/dist/components/animation/animation.js';
 
 export class Userdata extends LitElement {
   static get properties() {
@@ -25,24 +29,52 @@ export class Userdata extends LitElement {
   render() {
     return html`
       <table id="myTable">
+      <div class="animation-overview">
         <h1>
-          <marquee loop="-1" scrollamount="5" width="100%"
+          <marquee loop="-1" scrollamount="5" width="100%" 
             >Employee Data Form
           </marquee>
         </h1>
-        <button type="text" class="btn-sort" @click=${this.sortitem}>
+        
+        <!-- <sl-marquee loop="-1" scrollamount="5" width="100%"
+            >Employee Data Form </sl-marquee> -->
+
+        <!-- <button type="text" class="btn-sort" @click=${this.sortitem}>
           Sort
-        </button>
+        </button> -->
+
+        <sl-button
+          variant="text"
+          size="large"
+          class="btn-sort"
+          @click=${this.sortitem}
+        >
+          Sort
+        </sl-button>
 
         <div class="search">
           <form action="#">
-            <input
+          <sl-tooltip content="Type in a name."> 
+             <input
               type="text"
               id="nameFilter"
               @input=${this.filterByName}
               placeholder="Search for names.."
+             
+            /> 
+            </sl-tooltip> 
+             <!-- <sl-tooltip content="This is a tooltip"> 
+            <sl-input
+              type="text"
+              id="nameFilter"
+              @input=${this.filterByName}
+      
+              placeholder="Search for names.."
               title="Type in a name"
-            />
+            ><sl-icon name="search"></sl-icon></sl-input>
+            </sl-tooltip>  -->
+
+           
           </form>
         </div>
 
@@ -99,7 +131,7 @@ export class Userdata extends LitElement {
                 <button class="update" @click=${() => this.updateitem(index)}>
                   Update
                 </button>
-                <!-- <sl-button class="update" @click=${() => this.updateitem(index)}>Button</sl-button> -->
+               
 
                 &nbsp &nbsp
                 <button
@@ -108,6 +140,14 @@ export class Userdata extends LitElement {
                 >
                   Delete
                 </button>
+                <!-- <sl-button
+                  variant="primary"
+                  @click=${() => this.updateitem(index)}
+                  >Update</sl-button
+                >
+                <sl-button variant="primary"  @click=${() => this.deletecondition(index)}
+                  >Cancel</sl-button
+                > -->
               </td>
             </tr>
           `
@@ -136,7 +176,7 @@ export class Userdata extends LitElement {
   filterByName(e) {
     e.preventDefault();
     const filterValue = e.target.value.toLowerCase();
-    this.savedData= JSON.parse(localStorage.getItem("myFormData")) || [];
+    this.savedData = JSON.parse(localStorage.getItem("myFormData")) || [];
 
     if (filterValue) {
       this.savedData = this.savedData.filter((item) =>
@@ -209,7 +249,8 @@ export class Userdata extends LitElement {
       }
       h1 {
         color: #0d0e0d;
-        background-color: #dbe2de;
+        background-color: #c98bbe;
+        /* --sl-color-danger-{200}; */
       }
       #btn {
         margin: 5px;
@@ -289,7 +330,7 @@ export class Userdata extends LitElement {
         background-image: linear-gradient(green, white);
       }
       table {
-        /* margin:5px; */
+        margin: 5px;
         /* width:99%;  */
         /* font-family:Oldtown; */
         font-size: 16px;
@@ -310,22 +351,26 @@ export class Userdata extends LitElement {
         background-color: #e6eaf0;
       }
 
-      .btn-sort {
+      sl-button.btn-sort {
         margin-top: 1.5px;
         align-items: center;
         background-color: #3e337c;
+        color: white;
         border: 0px solid #111;
         border-radius: 8px;
+
         box-sizing: border-box;
         color: #f3f0f0;
         cursor: pointer;
         display: flex;
         font-family: Inter, sans-serif;
-        font-size: 16px;
+        font-size: 26px;
         height: 38px;
         justify-content: center;
         line-height: 24px;
-        max-width: 80%;
+        /* min-width:10px;  */
+        margin-left: 5px;
+        width: 120px;
         padding: 0 25px;
         position: absolute;
         text-align: center;
@@ -334,7 +379,7 @@ export class Userdata extends LitElement {
         -webkit-user-select: none;
         touch-action: manipulation;
       }
-      .btn-sort:after {
+      sl-button.btn-sort:after {
         background-color: #111;
         border-radius: 8px;
         content: "";
@@ -349,22 +394,24 @@ export class Userdata extends LitElement {
         z-index: -1;
       }
 
-      .btn-sort:hover:after {
+      sl-button.btn-sort:hover:after {
         transform: translate(0, 0);
       }
 
-      .btn-sort:active {
-        /* background-color: #ffdeda; */
-        background-color: #3e337c;
+      sl-button.btn-sort:active {
+        background-color: #ffdeda;
+        /* background-color: #3e337c; */
         outline: 0;
       }
-      .btn-sort :hover {
+      sl-button.btn-sort :hover {
         outline: 0;
       }
       @media (min-width: 768px) {
-        .btn-sort {
+        sl-button.btn-sort {
           padding: 0 40px;
         }
+      }
+      sl-button.btn-sort {
       }
       .btn {
         border-radius: 100px;

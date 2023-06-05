@@ -5,6 +5,13 @@ import { department } from "./assets/department";
 import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
+import "@shoelace-style/shoelace/dist/themes/light.css";
+import "@shoelace-style/shoelace/dist/components/button/button.js";
+import "@shoelace-style/shoelace/dist/components/input/input.js";
+import "@shoelace-style/shoelace/dist/components/select/select.js";
+import "@shoelace-style/shoelace/dist/components/option/option.js";
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -326,7 +333,7 @@ export class MyElement extends LitElement {
             <!------------------------------------------------->
             <div class="form-control">
               <label for="name-input"> EmpName:</label>
-              <input
+              <!-- <input
                 type="text"
                 id="name-input"
                 required
@@ -336,14 +343,31 @@ export class MyElement extends LitElement {
                 style=${this.empForm.name?.errorMessage
                   ? "border: solid 1px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                type="text"
+                id="name-input"
+                required
+                autocomplete="off"
+                name="name"
+                placeholder="Enter your Fullname "
+                @input=${(e) => this.decider(e, "empName")}
+                style=${
+                  this.empForm.name?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+                placeholder="Clearable"
+                clearable
+              ></sl-input>
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
+            
             <!------------------------------------------>
 
             <div class="form-control">
               <label for="empcode-input">EmpCode:</label>
-              <input
+              <!-- <input
                 id="empcode-input"
                 required
                 placeholder="Enter your Employee code"
@@ -351,7 +375,22 @@ export class MyElement extends LitElement {
                 style=${this.empForm.empCode?.errorMessage
                   ? "border: solid 1px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                id="empcode-input"
+                required
+                placeholder="Enter your Employee code"
+                name="empCode"
+                type="text"
+                @input=${(e) => this.decider(e, "empCode")}
+                style=${
+                  this.empForm.empCode?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+                   placeholder="Clearable"
+                clearable
+              /></sl-input>
               <p id="display">${this.empForm.empCode.errorMessage}</p>
             </div>
             <!------------------------------------------------->
@@ -359,7 +398,7 @@ export class MyElement extends LitElement {
             <div class="form-control">
               <label for="email-input">Email:</label>
 
-              <input
+              <!-- <input
                 id="email-input"
                 placeholder="Enter your Email id"
                 required
@@ -367,16 +406,31 @@ export class MyElement extends LitElement {
                 style=${this.empForm.email?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                id="email-input"
+                type="email"
+                placeholder="Enter your Email Address"
+                required
+                @input=${(e) => this.decider(e, "email")}
+                style=${
+                  this.empForm.email?.errorMessage
+                  ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+                 placeholder="Clearable"
+                clearable
+              ></sl-input>
               <p id="display">${this.empForm.email.errorMessage}</p>
             </div>
             <!-------------------------------------------->
 
             <div class="form-control">
-              <label for="phone-input">Phone Number*</label>
+              <label for="phone-input">Phone Number:</label>
 
               ${!this.isEditing
-                ? html`<input
+                ? html`
+                <!-- <input
                       type="Number"
                       id="phone-input"
                       placeholder="Enter your phone"
@@ -386,9 +440,22 @@ export class MyElement extends LitElement {
                       style=${this.empForm.phone?.errorMessage
                         ? "border: solid 3px red;"
                         : ""}
-                    />
+                    /> -->
+                    <sl-input
+                        type="Number"
+                        id="phone-input"
+                        placeholder="Enter your phone"
+                        autocomplete="off"
+                        required
+                        @input=${(e) => this.decider(e, "phone")}
+                        style=${this.empForm.phone?.errorMessage
+                          ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                          : ""}
+                          
+                      ><sl-input>
                     <p id="display">${this.empForm.phone.errorMessage}</p>`
-                : html`<input
+                : html`
+                <!-- <input
                       id="phone-input"
                       placeholder="Enter your phone"
                       autocomplete="off"
@@ -397,32 +464,40 @@ export class MyElement extends LitElement {
                       style=${this.empForm.phone?.errorMessage
                         ? "border: solid 3px red;"
                         : ""}
-                    />
+                    /> -->
+                    <sl-input
+                        id="phone-input"
+                        placeholder="Enter your phone"
+                        autocomplete="off"
+                        required
+                        @input=${(e) => this.decider(e, "phone")}
+                        style=${this.empForm.phone?.errorMessage
+                          ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                          : ""}
+                      ></sl-input>
                     <p id="display">${this.empForm.phone.errorMessage}</p>`}
             </div>
             <!---------------------------------------->
             <div class="form-control">
-              <label>Designation:</label>
-              <select
+            <label>Designation:</label>
+              <sl-select
                 id="designation"
                 required
-                Select
-                your
-                option
-                @input=${(e) => this.decider(e, "designation")}
-                style=${this.empForm.designation?.errorMessage
-                  ? "border: solid 1px red;"
-                  : ""}
+                placeholder="Choose your designation"
+                name="designation"
+                @click=${(e) => this.decider(e, "designation")}
               >
-                ${repeat(designation, (e) => html` <option>${e}</option>`)}
-              </select>
-              <p id="display">${this.empForm.designation.errorMessage}</p>
+                ${repeat(
+                  designation,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                )}
+              </sl-select>
             </div>
             <!-------------------------------------------------->
 
             <div class="form-control">
               <label>Department:</label>
-              <select
+              <!-- <select
                 id="department"
                 required
                 @input=${(e) => this.decider(e, "department")}
@@ -431,14 +506,31 @@ export class MyElement extends LitElement {
                   : ""}
               >
                 ${repeat(department, (e) => html`<option>${e}</option>`)}
-              </select>
+              </select> -->
+              <sl-select
+                id="department"
+                required
+                name="department"
+                placeholder="Choose your department"
+                @click=${(e) => this.decider(e, "department")}
+                style=${
+                  this.empForm.department?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+              >
+                ${repeat(
+                  department,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                   )}
+              </sl-select>
               <p id="display">${this.empForm.department.errorMessage}</p>
             </div>
             <!----------------------------------------------->
 
             <div class="form-control">
               <label>Address line 1:</label>
-              <input
+              <!-- <input
                 id="adline1"
                 placeholder="Enter your Address"
                 required
@@ -447,12 +539,29 @@ export class MyElement extends LitElement {
                 style=${this.empForm.address?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                id="adline1"
+                placeholder="Enter your Address"
+                required
+                name="address"
+                autocomplete="off"
+                placeholder="clearable"
+                clearable
+                @input=${(e) => this.decider(e, "addressLine1")}
+                style=${
+                  this.empForm.address?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+                 placeholder="Clearable"
+                clearable
+              ></sl-input>
             </div>
             <!------------------------------------------------>
             <div class="form-control">
               <label>Address line 2</label>
-              <input
+              <!-- <input
                 id="adline2"
                 placeholder="optional"
                 autocomplete="off"
@@ -460,14 +569,23 @@ export class MyElement extends LitElement {
                 style=${this.empForm.address?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
-              <p id="display">${this.empForm.address.errorMessage}</p>
+              /> -->
+              <sl-input
+                id="adline2"
+                placeholder="optional"
+                autocomplete="off"
+                name="address1"
+                @input=${(e) => this.decider(e, "addressLine2")}
+                placeholder="Clearable"
+                clearable
+              ></sl-input>
+              <!-- <p id="display">${this.empForm.address.errorMessage}</p> -->
             </div>
             <!-------------------------------------------------->
 
             <div class="form-control">
               <label>Landmark:</label>
-              <input
+              <!-- <input
                 id="landmark"
                 required
                 type="text"
@@ -476,14 +594,30 @@ export class MyElement extends LitElement {
                 style=${this.empForm.landmark?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                id="landmark"
+                required
+                type="text"
+                name="landmark"
+                placeholder="Enter your Landmark"
+                autocomplete="off"
+                @input=${(e) => this.decider(e, "landmark")}
+                style=${
+                  this.empForm.landmark?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0, 84% 54%)"
+                    : ""
+                }
+                 placeholder="Clearable"
+                clearable
+              /></sl-input>
               <p id="display">${this.empForm.landmark.errorMessage}</p>
             </div>
             <!--------------------------------------------------->
 
             <div class="form-control">
               <label>Country:</label>
-              <select
+              <!-- <select
                 id="country"
                 required
                 @input=${(e) => this.decider(e, "country")}
@@ -492,13 +626,23 @@ export class MyElement extends LitElement {
                   : ""}
               >
                 ${repeat(country, (e) => html` <option>${e}</option>`)}
-              </select>
+              </select> -->
+              <sl-select
+                id="country"
+                required
+                name="country"
+                placeholder="Choose your country"
+                @input=${(e) => this.decider(e, "country")}
+               
+              >
+                ${repeat(country, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+              </sl-select>
               <p id="display">${this.empForm.country.errorMessage}</p>
             </div>
             <!-------------------------------------------------->
             <div class="form-control">
               <label>State:</label>
-              <select
+              <!-- <select
                 id="state"
                 required
                 @input=${(e) => this.decider(e, "state")}
@@ -507,14 +651,23 @@ export class MyElement extends LitElement {
                   : ""}
               >
                 ${repeat(state, (e) => html` <option>${e}</option>`)}
-              </select>
+              </select> -->
+              <sl-select
+                id="state"
+                required
+                name="state"
+                placeholder="Choose your state"
+                @input=${(e) => this.decider(e, "state")}
+              >
+                ${repeat(state, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+              </sl-select>
               <p id="display">${this.empForm.state.errorMessage}</p>
             </div>
             <!-------------------------------------------------->
 
             <div class="form-control">
               <label>City:</label>
-              <select
+              <!-- <select
                 id="city"
                 required
                 @input=${(e) => this.decider(e, "city")}
@@ -523,14 +676,25 @@ export class MyElement extends LitElement {
                   : ""}
               >
                 ${repeat(city, (e) => html` <option>${e}</option>`)}
-              </select>
+              </select> -->
+              <sl-select
+                id="city"
+                required
+                name="city"
+                autocomplete="off"
+                placeholder="Choose your city"
+                @input=${(e) => this.decider(e, "city")}
+              >
+                ${repeat(city, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+              </sl-select>
+
               <p id="display">${this.empForm.city.errorMessage}</p>
             </div>
             <!--------------------------------------------------->
 
             <div class="form-control">
               <label>Zip Code:</label>
-              <input
+              <!-- <input
                 type="Number"
                 id="zip"
                 required
@@ -540,7 +704,22 @@ export class MyElement extends LitElement {
                 style=${this.empForm.zipcode?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
+              /> -->
+              <sl-input
+                type="Number"
+                id="zip"
+                required
+                placeholder="Enter your pincode"
+                autocomplete="off"
+                name= "zipcode"
+                @input=${(e) => this.decider(e, "zipCode")}
+                style=${
+                  this.empForm.zipcode?.errorMessage
+                  ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+
+              ></sl-input>
               <p id="display">${this.empForm.zipcode.errorMessage}</p>
             </div>
             <!---------------------------------------------------->
@@ -566,8 +745,10 @@ export class MyElement extends LitElement {
       "email",
       "phone",
       "department",
+      
       "address",
       "landmark",
+      "city",
       "zipcode",
     ];
 
@@ -987,6 +1168,7 @@ export class MyElement extends LitElement {
       this.empForm.department.isValidName === true &&
       this.empForm.address.isValidName === true &&
       this.empForm.landmark.isValidName === true &&
+      
       this.empForm.zipcode.isValidName === true
     ) {
       let empdata = {
