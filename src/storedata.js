@@ -2,9 +2,11 @@ import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element";
 import "@shoelace-style/shoelace/dist/themes/dark.css";
-// import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
-// import '@shoelace-style/shoelace/dist/components/animation/animation.js';
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
+import "@shoelace-style/shoelace/dist/components/animation/animation.js";
+import "@shoelace-style/shoelace/dist/components/icon/icon.js";
+
 
 export class Userdata extends LitElement {
   static get properties() {
@@ -30,49 +32,50 @@ export class Userdata extends LitElement {
     return html`
       <table id="myTable">
       <div class="animation-overview">
-        <h1>
-          <marquee loop="-1" scrollamount="5" width="100%" 
-            >Employee Data Form
-          </marquee>
+        <center><h1>
+       
+            Employee Data Form
+         
         </h1>
+       </center>
         
-        <!-- <sl-marquee loop="-1" scrollamount="5" width="100%"
-            >Employee Data Form </sl-marquee> -->
 
-        <!-- <button type="text" class="btn-sort" @click=${this.sortitem}>
-          Sort
-        </button> -->
-
-        <sl-button
+        <!-- <sl-button
           variant="text"
           size="large"
           class="btn-sort"
           @click=${this.sortitem}
         >
           Sort
+        </sl-button> -->
+        <sl-button
+          variant="text"
+          size="large"
+          
+          class="btn-sort"
+          
+        > <a href="index.html">+New Entry</a>
+          
         </sl-button>
+       
 
         <div class="search">
+          
           <form action="#">
+            
           <sl-tooltip content="Type in a name."> 
-             <input
+             <input 
               type="text"
-              id="nameFilter"
+              id="nameFilter"                                                  
               @input=${this.filterByName}
-              placeholder="Search for names.."
-             
-            /> 
+              placeholder="Search for names.."/> 
             </sl-tooltip> 
-             <!-- <sl-tooltip content="This is a tooltip"> 
-            <sl-input
-              type="text"
-              id="nameFilter"
-              @input=${this.filterByName}
-      
-              placeholder="Search for names.."
-              title="Type in a name"
-            ><sl-icon name="search"></sl-icon></sl-input>
-            </sl-tooltip>  -->
+            <!-- <sl-tooltip content="Type in a name."> 
+            
+              <sl-icon name="search"  type="text" id="nameFilter"                                                  
+              @input=${this.filterByName}></sl-icon>
+            </sl-tooltip>
+             -->
 
            
           </form>
@@ -80,7 +83,9 @@ export class Userdata extends LitElement {
 
         <thead>
           <tr>
-            <th>Name</th>
+            <th <img src="\src\assets\MicrosoftTeams-image (1).png">Name<sl-icon name="sort-down-alt"  @click=${this.sortitem}></sl-icon></th>
+          <!-- </tr>
+          <tr> -->
             <th>Empcode</th>
             <th>Email</th>
             <th>Phone</th>
@@ -95,28 +100,37 @@ export class Userdata extends LitElement {
             <th>Zipcode</th>
             <th>Actions</th>
           </tr>
-        </thead>
-        <!---------------------------------------------------------->
-        ${this.editData
-          ? html` <dialog id="popUpForm">
-              <my-element
-                isEditing
-                .editData=${this.editData}
-                .savedData=${this.savedData}
-                ><button class="btn" @click=${this.cancelData}>
-                  Close
-                </button></my-element
-              >
-            </dialog>`
-          : nothing}
-        <!----------------------------------------------------------->
+        </thead> 
+       <!------------------------------------>
+        ${
+          this.editData
+            ? html` <dialog id="popUpForm">
+                <my-element
+                  isEditing
+                  .editData=${this.editData}
+                  .savedData=${this.savedData}
+                  ><button class="btn" @click=${this.cancelData}>
+                    Close
+                  </button></my-element
+                >
+              </dialog>`
+            : nothing
+        }
+     <!------------------------------------------>
         ${repeat(
           this.savedData,
           (item, index) => html`
             <tr>
               <td>${item.name}</td>
+              
+            
               <td>${item.empCode}</td>
+
+           
+           
               <td>${item.email}</td>
+         
+           
               <td>${item.phone}</td>
               <td>${item.designation}</td>
               <td>${item.department}</td>
@@ -128,31 +142,31 @@ export class Userdata extends LitElement {
               <td>${item.city}</td>
               <td>${item.zipcode}</td>
               <td id="btn">
-                <button class="update" @click=${() => this.updateitem(index)}>
+                <!-- <button class="update" @click=${() => this.updateitem(index)}>
                   Update
-                </button>
-               
-
-                &nbsp &nbsp
-                <button
+                </button> -->
+                <sl-tooltip content="Edit Emp data"> 
+                <sl-icon name="pencil" class="delete"
+                @click=${() => this.updateitem(index)}></sl-icon></sl-tooltip>
+                <!-- &nbsp &nbsp -->
+                <!-- <button
                   class="delete"
                   @click=${() => this.deletecondition(index)}
                 >
                   Delete
-                </button>
-                <!-- <sl-button
-                  variant="primary"
-                  @click=${() => this.updateitem(index)}
-                  >Update</sl-button
-                >
-                <sl-button variant="primary"  @click=${() => this.deletecondition(index)}
-                  >Cancel</sl-button
-                > -->
+                </button> -->
+                <!-- This will show the icon located at /assets/icons/smile.svg -->
+                <sl-tooltip content="Delete Emp data"> 
+                <sl-icon name="trash" class="delete"
+                  @click=${() => this.deletecondition(index)} ></sl-icon></sl-tooltip>
+                <!-- <sl-icon class="pencilIcon" name="pencil" @click="${() => this.edit(item)}"></sl-icon> -->
               </td>
             </tr>
           `
         )}
       </table>
+      
+    
     `;
   }
 
@@ -186,6 +200,8 @@ export class Userdata extends LitElement {
 
     this.requestUpdate();
   }
+  //====================================================
+  
   //===============================================================
 
   updateitem(index) {
@@ -225,37 +241,33 @@ export class Userdata extends LitElement {
       table,
       th,
       td {
-        border: 1px solid black;
-        border-collapse: collapse;
+        /* border: 1px solid black; */
+        /* border-collapse: collapse; */
+        /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
       }
-      /* #myTable{
-        background-color:black;
-
-      } */
-
+      
+      
       #nameFilter {
-        /* background-image: url("/src/bg.png"); */
-        /* Position the search icon */
-
-        /* height:100px;
-        background-position: 9px 9px; */
         background-repeat: no-repeat;
         width: 27%;
         font-size: 16px;
         padding: 12px 20px 12px 40px;
         border: 1px solid #ddd;
-        /* margin-bottom: 5px; */
+
         margin-left: 880px;
       }
+
       h1 {
-        color: #0d0e0d;
-        background-color: #c98bbe;
-        /* --sl-color-danger-{200}; */
+        /* color: #0d0e0d;
+        background-color: #a7779f; */
+        /* text-shadow: 0 0 3px #FF0000; */
+        box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+       
       }
-      #btn {
+      /* #btn {
         margin: 5px;
         background-color: #c7e45e5a;
-      }
+      } */
       #display {
         height: 200px;
         padding: 9px 16px;
@@ -277,7 +289,7 @@ export class Userdata extends LitElement {
         padding: 2px 16px;
         border-radius: 0.7rem;
         background-image: linear-gradient(Black, blue);
-        /* background-color:#080808; */
+
         box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
         transform: translate(0, -3px);
         transition: 0.2s;
@@ -289,15 +301,15 @@ export class Userdata extends LitElement {
       }
       .delete {
         margin-top: 5px;
-        margin-left: 35px;
+        /* margin-left: 35px; */
+        
         font-size: 17px;
-        color: #f6fcfb;
+        color: #ec3e12;
         padding: 2px 16px;
         border-radius: 0.6rem;
-        /* background-image: linear-gradient(orange, pink); */
-        /* background-color:#0a0a0a; */
-        background-image: linear-gradient(Black, blue);
-        box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
+
+        /* background-image: linear-gradient(Black, blue); */
+        /* box-shadow: 0px 1px 6px 0px rgb(158, 129, 254); */
         transform: translate(0, -3px);
         transition: 0.2s;
         transition-timing-function: linear;
@@ -325,40 +337,49 @@ export class Userdata extends LitElement {
         font-size: 17px;
         padding: 5px 16px;
         width: 100px;
-        /* margin-top:4px; */
+
         border-radius: 0.9rem;
         background-image: linear-gradient(green, white);
       }
       table {
         margin: 5px;
-        /* width:99%;  */
-        /* font-family:Oldtown; */
-        font-size: 16px;
+
+        font-size: 14px;
         font-family: Georgia, serif;
         margin-top: 30px;
-        /* background-image: url("src/bg2.jpg"); */
-        /* background-color:black; */
+        height:80px;
+        width:80px;
+        margin-left:42px;
+        margin-right:47px;
+        
+
+
       }
       th {
         padding-top: 12px;
         padding-bottom: 12px;
-        background-color: #c18deb;
+        /* background-color: #c18deb; */
       }
+      
       tr:hover {
         background-color: #72d35550;
+         padding-top: 12px;
+        padding-bottom: 12px;
       }
       tr:nth-child(even) {
         background-color: #e6eaf0;
+        padding-top: 12px;
+        padding-bottom: 12px;
       }
 
       sl-button.btn-sort {
         margin-top: 1.5px;
         align-items: center;
-        background-color: #3e337c;
+        background-color: #7edbe2;
         color: white;
         border: 0px solid #111;
         border-radius: 8px;
-
+        font-color:#ffff;
         box-sizing: border-box;
         color: #f3f0f0;
         cursor: pointer;
@@ -368,7 +389,7 @@ export class Userdata extends LitElement {
         height: 38px;
         justify-content: center;
         line-height: 24px;
-        /* min-width:10px;  */
+
         margin-left: 5px;
         width: 120px;
         padding: 0 25px;
@@ -400,7 +421,7 @@ export class Userdata extends LitElement {
 
       sl-button.btn-sort:active {
         background-color: #ffdeda;
-        /* background-color: #3e337c; */
+
         outline: 0;
       }
       sl-button.btn-sort :hover {
@@ -420,7 +441,7 @@ export class Userdata extends LitElement {
           rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
           rgba(44, 187, 99, 0.15) 0 16px 32px;
         color: green;
-        /* cursor: pointer; */
+
         display: inline-block;
 
         padding: 7px 20px;
