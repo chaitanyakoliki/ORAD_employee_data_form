@@ -2,11 +2,12 @@ import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element";
 import "@shoelace-style/shoelace/dist/themes/dark.css";
-import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
 import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
 import "@shoelace-style/shoelace/dist/components/animation/animation.js";
 import "@shoelace-style/shoelace/dist/components/icon/icon.js";
-
+import "@shoelace-style/shoelace/dist/components/details/details.js";
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
 
 export class Userdata extends LitElement {
   static get properties() {
@@ -25,30 +26,18 @@ export class Userdata extends LitElement {
     this.editData = undefined;
     this.ascending = false;
   }
-  //================================================================
-
-  //===================================================================
   render() {
     return html`
-      <table id="myTable">
-      <div class="animation-overview">
-        <center><h1>
-       
-            Employee Data Form
-         
-        </h1>
-       </center>
-        
+      <!-- <sl-tooltip content="Sort">
+        <sl-button class="btn-sort" @click=${this.sortitem}>
+          <img src="src/assets/sort.png" id="slogo"
+        /></sl-button>
+      </sl-tooltip> -->
 
-        <!-- <sl-button
-          variant="text"
-          size="large"
-          class="btn-sort"
-          @click=${this.sortitem}
-        >
-          Sort
-        </sl-button> -->
-        <sl-button
+      <!-- <div class="head">
+        <center><h1>Employee Details</h1></center>
+      </div> -->
+      <sl-button
           variant="text"
           size="large"
           
@@ -57,51 +46,30 @@ export class Userdata extends LitElement {
         > <a href="index.html">+New Entry</a>
           
         </sl-button>
-       
-
         <div class="search">
-          
           <form action="#">
             
-          <sl-tooltip content="Type in a name."> 
-             <input 
-              type="text"
-              id="nameFilter"                                                  
-              @input=${this.filterByName}
-              placeholder="Search for names.."/> 
-            </sl-tooltip> 
+            <sl-tooltip content="Type in a name.">
+              <input
+                type="text"
+                id="nameFilter"
+                @input=${this.filterByName}
+                placeholder="Search for names.."
+              />
+            </sl-tooltip>
+            
+     
             <!-- <sl-tooltip content="Type in a name."> 
             
               <sl-icon name="search"  type="text" id="nameFilter"                                                  
               @input=${this.filterByName}></sl-icon>
             </sl-tooltip>
              -->
-
-           
           </form>
+          
         </div>
+        <!------------------------------------------------->
 
-        <thead>
-          <tr>
-            <th <img src="\src\assets\MicrosoftTeams-image (1).png">Name<sl-icon name="sort-down-alt"  @click=${this.sortitem}></sl-icon></th>
-          <!-- </tr>
-          <tr> -->
-            <th>Empcode</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Designation</th>
-            <th>Department</th>
-            <th>Address</th>
-            <th>Address1</th>
-            <th>Landmark</th>
-            <th>country</th>
-            <th>State</th>
-            <th>City</th>
-            <th>Zipcode</th>
-            <th>Actions</th>
-          </tr>
-        </thead> 
-       <!------------------------------------>
         ${
           this.editData
             ? html` <dialog id="popUpForm">
@@ -116,61 +84,87 @@ export class Userdata extends LitElement {
               </dialog>`
             : nothing
         }
-     <!------------------------------------------>
+        <!--------------------------------------->
+        <div class="koliki">
+         <div id="h">
+        <center><h1> Employee Details <sl-icon name="arrow-down-up"  @click=${
+          this.sortitem
+        }></sl-icon></h1></center>
+      </div>
         ${repeat(
           this.savedData,
           (item, index) => html`
-            <tr>
-              <td>${item.name}</td>
+            <div class="wrapper">
               
-            
-              <td>${item.empCode}</td>
-
-           
-           
-              <td>${item.email}</td>
-         
-           
-              <td>${item.phone}</td>
-              <td>${item.designation}</td>
-              <td>${item.department}</td>
-              <td>${item.address}</td>
-              <td>${item.address1}</td>
-              <td>${item.landmark}</td>
-              <td>${item.country}</td>
-              <td>${item.state}</td>
-              <td>${item.city}</td>
-              <td>${item.zipcode}</td>
-              <td id="btn">
-                <!-- <button class="update" @click=${() => this.updateitem(index)}>
-                  Update
-                </button> -->
-                <sl-tooltip content="Edit Emp data"> 
-                <sl-icon name="pencil" class="delete"
-                @click=${() => this.updateitem(index)}></sl-icon></sl-tooltip>
-                <!-- &nbsp &nbsp -->
-                <!-- <button
-                  class="delete"
-                  @click=${() => this.deletecondition(index)}
-                >
-                  Delete
-                </button> -->
-                <!-- This will show the icon located at /assets/icons/smile.svg -->
-                <sl-tooltip content="Delete Emp data"> 
-                <sl-icon name="trash" class="delete"
-                  @click=${() => this.deletecondition(index)} ></sl-icon></sl-tooltip>
-                <!-- <sl-icon class="pencilIcon" name="pencil" @click="${() => this.edit(item)}"></sl-icon> -->
-              </td>
-            </tr>
+              <div class="container">
+                
+                
+                <div class="chaithu">
+                
+                <sl-tooltip class=".tooltip-text" content="Employee full details">
+                
+                  
+                  <sl-details id="cool" summary="Name:  ${item.name}">
+                  
+                  
+       
+                    <!-- <span class="heade">${item.name}</span> -->
+                    <!-- <h3>Datailed Info</h3> -->
+                    
+                    <div class="box">
+                   
+                    
+                    <p>Emp code- ${item.empCode}</p>
+                    <p>Email-${item.email}</p>
+                    <p>Phone-${item.phone}</p>
+                    <p>Designation-${item.designation}</p>
+                    <p>Department-${item.department}</p>
+                    <p>Address-${item.address},${item.address1}</p>
+                    <p>Landmark-${item.landmark}</p>
+                    <p>Country-${item.country}</p>
+                    <p>State-${item.state}</p>
+                    <p>City-${item.city}</p>
+                    <p>Zip Code-${item.zipcode}</p>
+                    <div class="btn-holder">
+                    <sl-tooltip  content="Edit Emp data"> 
+                      <button
+                        class="update"
+                        @click=${() => this.updateitem(index)}
+                      >
+                        Update
+                      </button>
+        </sl-tooltip>
+                      <sl-tooltip content="Delete Emp data"> 
+                      <button
+                        class="delete"
+                        @click=${() => this.deletecondition(index)}
+                      >
+                        Delete
+                      </button>
+        </sl-tooltip>
+        </sl-tooltip>
+                      
+                      
+                      <!-- <button
+                    class="btn-delete"
+                    @click=${() => this.deletecondition(index)}
+                  >
+                    <img src="src/assets/delete.png" id="dlogo" />
+                  </button> -->
+                    </div>
+                  </sl-details>
+        </div>
+                </div>
+              </div>
+            </div>
           `
         )}
-      </table>
+        </div>
+      </div>
       
-    
     `;
   }
-
-  //===============================================================
+  //==================================================
   sortitem() {
     this.ascending = !this.ascending;
     const multiplier = this.ascending ? 1 : -1;
@@ -186,7 +180,7 @@ export class Userdata extends LitElement {
     });
     this.requestUpdate();
   }
-  //==================================================
+  //=========================================
   filterByName(e) {
     e.preventDefault();
     const filterValue = e.target.value.toLowerCase();
@@ -200,10 +194,7 @@ export class Userdata extends LitElement {
 
     this.requestUpdate();
   }
-  //====================================================
-  
-  //===============================================================
-
+  //===============================================
   updateitem(index) {
     this.index = index;
     const items = this.savedData[index];
@@ -217,6 +208,22 @@ export class Userdata extends LitElement {
     const popUp = this.renderRoot.querySelector("#popUpForm");
     popUp.showModal();
   }
+
+  // updateData(e) {
+  //   e.preventDefault();
+  //   const UpdatedName = this.shadowRoot.querySelector("#name").value;
+  //   const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
+  //   const UpdatedEmail = this.shadowRoot.querySelector("#email").value;
+  //   if (UpdatedName && UpdatedEmpCode) {
+  //     const items = this.savedData[this.index];
+  //     items.name = UpdatedName;
+  //     items.empCode = UpdatedEmpCode;
+  //     items.email = UpdatedEmail;
+  //     localStorage.setItem("myFormData", JSON.stringify(this.savedData));
+  //     window.location.reload();
+  //     this.requestUpdate();
+  //   }
+  // }
 
   cancelData() {
     this.editData = undefined;
@@ -238,148 +245,57 @@ export class Userdata extends LitElement {
   }
   static get styles() {
     return css`
-      table,
-      th,
-      td {
-        /* border: 1px solid black; */
-        /* border-collapse: collapse; */
-        /* box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px; */
+      .head {
+        position: static;
+        /* box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+          rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+          rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+          rgba(44, 187, 99, 0.15) 0 16px 32px; */
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -13px 15px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -16px 10px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
       }
-      
-      
+      #h {
+        position: static;
+        height: 50px;
+        margin-right: 462px;
+        margin-left: 190px;
+        color:#ffff;
+        background-color: #a51010;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -13px 15px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -16px 10px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      }
+
       #nameFilter {
         background-repeat: no-repeat;
         width: 27%;
         font-size: 16px;
         padding: 12px 20px 12px 40px;
         border: 1px solid #ddd;
-
+        /* box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+          rgba(0, 0, 0, 0.09) 0px 32px 16px; */
         margin-left: 880px;
+        margin-top: 20px;
       }
-
-      h1 {
-        /* color: #0d0e0d;
-        background-color: #a7779f; */
-        /* text-shadow: 0 0 3px #FF0000; */
-        box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-       
-      }
-      /* #btn {
-        margin: 5px;
-        background-color: #c7e45e5a;
-      } */
-      #display {
-        height: 200px;
-        padding: 9px 16px;
-        border-radius: 0.9rem;
-      }
-      #name {
-        height: 25px;
-        margin: 26px;
-      }
-      #empCode {
-        height: 25px;
-      }
-      .update {
-        margin: 7px;
-        font-size: 17px;
-        color: #fbfcfc;
-        width: 85px;
-        margin-left: 35px;
-        padding: 2px 16px;
-        border-radius: 0.7rem;
-        background-image: linear-gradient(Black, blue);
-
-        box-shadow: 0px 1px 6px 0px rgb(158, 129, 254);
-        transform: translate(0, -3px);
-        transition: 0.2s;
-        transition-timing-function: linear;
-      }
-      .update:active {
-        transform: translate(0, 0);
-        border-bottom: 2px solid rgb(50, 50, 50);
-      }
-      .delete {
-        margin-top: 5px;
-        /* margin-left: 35px; */
-        
-        font-size: 17px;
-        color: #ec3e12;
-        padding: 2px 16px;
-        border-radius: 0.6rem;
-
-        /* background-image: linear-gradient(Black, blue); */
-        /* box-shadow: 0px 1px 6px 0px rgb(158, 129, 254); */
-        transform: translate(0, -3px);
-        transition: 0.2s;
-        transition-timing-function: linear;
-      }
-      .delete:active {
-        transform: translate(0, 0);
-        border-bottom: 2px solid rgb(50, 50, 50);
-      }
-      th,
-      td {
-        padding: 0px;
-      }
-      #n1 {
-        font-size: 17px;
-      }
-      #c1 {
-        font-size: 17px;
-        padding: 5px 16px;
-        width: 100px;
-        margin-top: 10px;
-        border-radius: 0.9rem;
-        background-image: linear-gradient(blue, white);
-      }
-      #s1 {
-        font-size: 17px;
-        padding: 5px 16px;
-        width: 100px;
-
-        border-radius: 0.9rem;
-        background-image: linear-gradient(green, white);
-      }
-      table {
-        margin: 5px;
-
-        font-size: 14px;
-        font-family: Georgia, serif;
-        margin-top: 30px;
-        height:80px;
-        width:80px;
-        margin-left:42px;
-        margin-right:47px;
-        
-
-
-      }
-      th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        /* background-color: #c18deb; */
-      }
-      
-      tr:hover {
-        background-color: #72d35550;
-         padding-top: 12px;
-        padding-bottom: 12px;
-      }
-      tr:nth-child(even) {
-        background-color: #e6eaf0;
-        padding-top: 12px;
-        padding-bottom: 12px;
-      }
-
       sl-button.btn-sort {
-        margin-top: 1.5px;
+        /* margin-top: 1.5px; */
         align-items: center;
         background-color: #7edbe2;
-        color: white;
+        /* color: white; */
         border: 0px solid #111;
         border-radius: 8px;
-        font-color:#ffff;
+        font-color: #ffff;
         box-sizing: border-box;
         color: #f3f0f0;
         cursor: pointer;
@@ -389,8 +305,9 @@ export class Userdata extends LitElement {
         height: 38px;
         justify-content: center;
         line-height: 24px;
-
-        margin-left: 5px;
+        margin-top: 70px;
+        margin-right: 1099.9px;
+        margin-left: 50px;
         width: 120px;
         padding: 0 25px;
         position: absolute;
@@ -460,8 +377,235 @@ export class Userdata extends LitElement {
         margin-left: 47px;
         margin-top: 10px;
       }
-      .btn:hover {
-        background: linear-gradient(to right, #e689e1, #31e482);
+      .chaithu {
+        color:#07021a;
+        width: 640px;
+        margin-left: 190px;
+        margin-top: 10px;
+        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
+          rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
+          rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
+          rgba(0, 0, 0, 0.07) 0px 32px 64px;
+          font-weight:bold;
+
+        /* box-shadow: rgba(240, 46, 170, 0.4) 5px 5px,
+          rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px,
+          rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px; */
+        /* background-color:#0c9752;
+        background: linear-gradient(to right, #e689e1, #31e482); */
+      }
+      #cool {
+        font-size: 19px;
+        /* background-color:#000; */
+      }
+      .koliki {
+      }
+      .update {
+        margin-left: 65px;
+        margin-top: 50px;
+        height: 39px;
+        width: 90px;
+        font-size: 17px;
+        color: #e9e7e7;
+        padding: 2px 16px;
+        border-radius: 0.6rem;
+        background-color: Black;
+        /* background-image: linear-gradient(Black, blue); */
+        /* box-shadow: 0px 1px 6px 0px rgb(158, 129, 254); */
+        transform: translate(0, -3px);
+        transition: 0.2s;
+        transition-timing-function: linear;
+      }
+      .delete {
+        /* margin-top: 5px; */
+        margin-left: 35px;
+        height: 39px;
+        font-size: 17px;
+        color: #faf7f6;
+        padding: 2px 16px;
+        border-radius: 0.6rem;
+        background-color: Black;
+        /* background-image: linear-gradient(Black, blue); */
+        /* box-shadow: 0px 1px 6px 0px rgb(158, 129, 254); */
+        transform: translate(0, -3px);
+        transition: 0.2s;
+        transition-timing-function: linear;
+      }
+      .delete:active {
+        transform: translate(0, 0);
+        border-bottom: 2px solid rgb(50, 50, 50);
+      }
+      //==============================
+      p {
+        font-weight: bold;
+      }
+      sl-button {
+        background-color: #000;
+      }
+      .wrapper {
+        display: inline-flex;
+        /* background-color: #fff; */
+      }
+      .box {
+        width: 400px;
+        height: 450px;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 60px;
+        margin: 10px;
+        margin-left: 50px;
+        /* letter-spacing: 1px; */
+        padding-top: 10px;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        position: relative;
+        font-size: 12px;
+        font-weight:bold;
+        z-index: 0;
+      }
+      .box h3 {
+        font-size: 35px;
+        padding: 20px 0;
+        color: #444;
+      }
+      .box p {
+        font-size: 18px;
+        color: #0c0c0c;
+        /* font-family: "mulish", sans-serif; */
+        font-family: Georgia, serif;
+        display: flex;
+        margin-left: -50px;
+      }
+      .btn-update {
+        width: 100%;
+        height: 40px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        outline: none;
+        font-size: 17px;
+        border-radius: 50px;
+        margin-top: 45px;
+        cursor: pointer;
+        margin-left: 0px;
+      }
+      .btn-update:hover {
+        letter-spacing: 2px;
+        opacity: 0.8;
+      }
+      .btn-delete {
+        height: 30px;
+        background-color: #ffffff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        position: absolute;
+        border-radius: 50px;
+        top: 10px;
+        left: 10px;
+      }
+      .box::before {
+        width: 100%;
+        height: 100%;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+      .box::after {
+        /* width: 100%;
+        height: 100%; */
+        width: 100%;
+        height: 100%;
+        background-color: #fbda61;
+        /* background-image: linear-gradient(45deg, #f0c119 0%, #010380 100%); */
+        background-image: linear-gradient(45deg, #19f03d 0%, #80016b 100%);
+        box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+          rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+          rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+          rgba(44, 187, 99, 0.15) 0 16px 32px;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -2;
+        /* clip-path: circle(40% at 80% -13%); */
+        /* transition: 0.5s; */
+      }
+      .heade {
+        position: absolute;
+        /* position:static; */
+        top: 15px;
+        right: 30px;
+        font-size: 30px;
+        font-weight: bolder;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+      }
+      .box:hover:after {
+        clip-path: circle(100%);
+      }
+      .box:hover h3 {
+        color: #fff;
+      }
+      .box:hover p {
+        /* color: #fff; */
+      }
+      .box:hover .btn-update {
+        color: #333;
+        background-color: #fff;
+      }
+      .box:hover .btn-delete {
+        color: #333;
+        background-color: #fff;
+      }
+      .box:hover ::before {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .btn-holder {
+        display: block;
+        margin-top: -40px;
+      }
+      .btn-sort {
+        position: absolute;
+        top: 17px;
+        right: 10px;
+      }
+      /* .btn-sort::part(base) {
+        background-color: #000;
+        outline: none;
+        border: none;
+      } */
+      #slogo {
+        width: 20px;
+        height: 30px;
+        cursor: pointer;
+      }
+      .tooltip-text {
+        font-size: 25px;
+        position: absolute;
+        right: 10%;
+        top: 84%;
+        color: #f7f2f2;
+        border: 1px solid #0033ff;
+        padding: 3px;
+        background: #0033ff;
+        visibility: hidden;
+      }
+      .btn-sort:hover .tooltip-text {
+        visibility: visible;
+      }
+      #dlogo {
+        width: 100%;
+        height: 20px;
+        cursor: pointer;
+        background-position: fill;
+      }
+      .out {
+        width: 100%;
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
       }
       #popUpForm {
         border: none;
@@ -470,7 +614,66 @@ export class Userdata extends LitElement {
         height: 70%;
         padding: 0px;
       }
+      dialog::-webkit-scrollbar {
+        width: 0.1px;
+      }
+
+      dialog::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      dialog::-webkit-scrollbar-thumb {
+        background-color: #ffffff;
+        outline: 1px solid slategrey;
+      }
+      .btn-cancel {
+        background: linear-gradient(to left, #74ebd5, #9face6);
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        display: block;
+        font-size: 16px;
+        padding: 15px 0;
+        margin-top: 20px;
+        width: 101%;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: #000000;
+        transition: all 1s ease;
+      }
+      .btn-cancel:hover {
+        background: linear-gradient(to right, #74ebd5, #9face6);
+      }
+      #popUpForm::backdrop {
+        background: #0b23a9;
+        opacity: 0.6;
+      }
+      .header h2 {
+        color: #222;
+        font-family: "Montserrat", sans-serif;
+        font-size: 20px;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .header {
+        background: linear-gradient(to left, #74ebd5, #9face6);
+        padding: 2px;
+      }
+      .container1 {
+        background-color: #fff;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+          0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12;
+        background: #e9f6f4;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
     `;
   }
 }
-window.customElements.define("data-store", Userdata);
+window.customElements.define("user-data", Userdata);
