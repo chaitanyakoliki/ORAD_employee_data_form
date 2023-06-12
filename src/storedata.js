@@ -26,17 +26,12 @@ export class Userdata extends LitElement {
     this.editData = undefined;
     this.ascending = false;
   }
+
   render() {
     return html`
-      <!-- <sl-tooltip content="Sort">
-        <sl-button class="btn-sort" @click=${this.sortitem}>
-          <img src="src/assets/sort.png" id="slogo"
-        /></sl-button>
-      </sl-tooltip> -->
-
-      <!-- <div class="head">
-        <center><h1>Employee Details</h1></center>
-      </div> -->
+    <div class="hi">
+     
+     
       <sl-button
           variant="text"
           size="large"
@@ -55,19 +50,15 @@ export class Userdata extends LitElement {
                 id="nameFilter"
                 @input=${this.filterByName}
                 placeholder="Search for names.."
-              />
+              >
             </sl-tooltip>
             
      
-            <!-- <sl-tooltip content="Type in a name."> 
-            
-              <sl-icon name="search"  type="text" id="nameFilter"                                                  
-              @input=${this.filterByName}></sl-icon>
-            </sl-tooltip>
-             -->
+           
           </form>
           
         </div>
+      
         <!------------------------------------------------->
 
         ${
@@ -87,9 +78,9 @@ export class Userdata extends LitElement {
         <!--------------------------------------->
         <div class="koliki">
          <div id="h">
-        <center><h1> Employee Details <sl-icon name="arrow-down-up"  @click=${
+        <center><h3>sort  <sl-tooltip content="Sort by name."><sl-icon name="arrow-down-up"  @click=${
           this.sortitem
-        }></sl-icon></h1></center>
+        }></sl-icon></sl-tooltip></h3></center>
       </div>
         ${repeat(
           this.savedData,
@@ -104,12 +95,11 @@ export class Userdata extends LitElement {
                 <sl-tooltip class=".tooltip-text" content="Employee full details">
                 
                   
-                  <sl-details id="cool" summary="Name:  ${item.name}">
+                  <sl-details id="cool" summary="Name:  ${item.name}"> 
                   
                   
        
-                    <!-- <span class="heade">${item.name}</span> -->
-                    <!-- <h3>Datailed Info</h3> -->
+                   
                     
                     <div class="box">
                    
@@ -145,23 +135,19 @@ export class Userdata extends LitElement {
         </sl-tooltip>
                       
                       
-                      <!-- <button
-                    class="btn-delete"
-                    @click=${() => this.deletecondition(index)}
-                  >
-                    <img src="src/assets/delete.png" id="dlogo" />
-                  </button> -->
+                     
                     </div>
                   </sl-details>
         </div>
                 </div>
               </div>
-            </div>
+           
           `
         )}
         </div>
       </div>
-      
+        </div>
+        </div>
     `;
   }
   //==================================================
@@ -209,22 +195,6 @@ export class Userdata extends LitElement {
     popUp.showModal();
   }
 
-  // updateData(e) {
-  //   e.preventDefault();
-  //   const UpdatedName = this.shadowRoot.querySelector("#name").value;
-  //   const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
-  //   const UpdatedEmail = this.shadowRoot.querySelector("#email").value;
-  //   if (UpdatedName && UpdatedEmpCode) {
-  //     const items = this.savedData[this.index];
-  //     items.name = UpdatedName;
-  //     items.empCode = UpdatedEmpCode;
-  //     items.email = UpdatedEmail;
-  //     localStorage.setItem("myFormData", JSON.stringify(this.savedData));
-  //     window.location.reload();
-  //     this.requestUpdate();
-  //   }
-  // }
-
   cancelData() {
     this.editData = undefined;
     const popUp = this.renderRoot.querySelector("#popUpForm");
@@ -245,12 +215,13 @@ export class Userdata extends LitElement {
   }
   static get styles() {
     return css`
+      .hi {
+        background-image: url("src/bg5.jpg");
+      }
+
       .head {
         position: static;
-        /* box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
-          rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
-          rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
-          rgba(44, 187, 99, 0.15) 0 16px 32px; */
+
         box-shadow: rgba(0, 0, 0, 0.17) 0px -13px 15px 0px inset,
           rgba(0, 0, 0, 0.15) 0px -16px 10px 0px inset,
           rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
@@ -259,11 +230,11 @@ export class Userdata extends LitElement {
           rgba(0, 0, 0, 0.09) 0px 32px 16px;
       }
       #h {
-        position: static;
-        height: 50px;
-        margin-right: 462px;
+        height: 30px;
+        margin-right: 3800px;
         margin-left: 190px;
-        color:#ffff;
+        margin-bottom: 0px;
+        color: #ffff;
         background-color: #a51010;
         box-shadow: rgba(0, 0, 0, 0.17) 0px -13px 15px 0px inset,
           rgba(0, 0, 0, 0.15) 0px -16px 10px 0px inset,
@@ -279,25 +250,19 @@ export class Userdata extends LitElement {
         font-size: 16px;
         padding: 12px 20px 12px 40px;
         border: 1px solid #ddd;
-        /* box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
-          rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
-          rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
-          rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
-          rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
-          rgba(0, 0, 0, 0.09) 0px 32px 16px; */
+
         margin-left: 880px;
         margin-top: 20px;
       }
       sl-button.btn-sort {
-        /* margin-top: 1.5px; */
         align-items: center;
         background-color: #7edbe2;
-        /* color: white; */
+
         border: 0px solid #111;
         border-radius: 8px;
-        font-color: #ffff;
+
         box-sizing: border-box;
-        color: #f3f0f0;
+
         cursor: pointer;
         display: flex;
         font-family: Inter, sans-serif;
@@ -318,7 +283,8 @@ export class Userdata extends LitElement {
         touch-action: manipulation;
       }
       sl-button.btn-sort:after {
-        background-color: #111;
+        /* background-color: #111; */
+        background-color: #0a0a0a;
         border-radius: 8px;
         content: "";
         display: block;
@@ -378,28 +344,23 @@ export class Userdata extends LitElement {
         margin-top: 10px;
       }
       .chaithu {
-        color:#07021a;
+        color: #07021a;
         width: 640px;
-        margin-left: 190px;
+        margin-left: 230px;
         margin-top: 10px;
         box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
           rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
           rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
           rgba(0, 0, 0, 0.07) 0px 32px 64px;
-          font-weight:bold;
-
-        /* box-shadow: rgba(240, 46, 170, 0.4) 5px 5px,
-          rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px,
-          rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px; */
-        /* background-color:#0c9752;
-        background: linear-gradient(to right, #e689e1, #31e482); */
+        font-weight: bold;
       }
       #cool {
         font-size: 19px;
-        /* background-color:#000; */
       }
       .koliki {
+        background-image: url("src/bg5.jpg");
       }
+
       .update {
         margin-left: 65px;
         margin-top: 50px;
@@ -410,14 +371,12 @@ export class Userdata extends LitElement {
         padding: 2px 16px;
         border-radius: 0.6rem;
         background-color: Black;
-        /* background-image: linear-gradient(Black, blue); */
-        /* box-shadow: 0px 1px 6px 0px rgb(158, 129, 254); */
+
         transform: translate(0, -3px);
         transition: 0.2s;
         transition-timing-function: linear;
       }
       .delete {
-        /* margin-top: 5px; */
         margin-left: 35px;
         height: 39px;
         font-size: 17px;
@@ -460,7 +419,7 @@ export class Userdata extends LitElement {
         overflow: hidden;
         position: relative;
         font-size: 12px;
-        font-weight:bold;
+        font-weight: bold;
         z-index: 0;
       }
       .box h3 {
@@ -470,7 +429,7 @@ export class Userdata extends LitElement {
       }
       .box p {
         font-size: 18px;
-        color: #0c0c0c;
+        color: #faf7f7;
         /* font-family: "mulish", sans-serif; */
         font-family: Georgia, serif;
         display: flex;
@@ -518,9 +477,9 @@ export class Userdata extends LitElement {
         height: 100%; */
         width: 100%;
         height: 100%;
-        background-color: #fbda61;
-        /* background-image: linear-gradient(45deg, #f0c119 0%, #010380 100%); */
-        background-image: linear-gradient(45deg, #19f03d 0%, #80016b 100%);
+        /* background-color: #fbda61; */
+        background-image: linear-gradient(45deg, #161616 0%, #4960a0 100%);
+        /* background-image: linear-gradient(45deg, #19f03d 0%, #80016b 100%); */
         box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
           rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
           rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
@@ -572,11 +531,7 @@ export class Userdata extends LitElement {
         top: 17px;
         right: 10px;
       }
-      /* .btn-sort::part(base) {
-        background-color: #000;
-        outline: none;
-        border: none;
-      } */
+
       #slogo {
         width: 20px;
         height: 30px;

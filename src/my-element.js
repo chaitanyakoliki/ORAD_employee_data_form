@@ -11,7 +11,7 @@ import "@shoelace-style/shoelace/dist/components/input/input.js";
 import "@shoelace-style/shoelace/dist/components/select/select.js";
 import "@shoelace-style/shoelace/dist/components/option/option.js";
 import "@shoelace-style/shoelace/dist/components/icon/icon.js";
-import '@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js';
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js";
 import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
 
@@ -25,13 +25,13 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       savedData: { type: Array },
-    
-      progress:{ type:Number},
-      progress1:{ type:Number},
-      progress2:{ type:Number},
-      progress3:{ type:Number},
-      progress4:{ type:Number},
-      progress5:{ type:Number},
+
+      progress: { type: Number },
+      progress1: { type: Number },
+      progress2: { type: Number },
+      progress3: { type: Number },
+      progress4: { type: Number },
+      progress5: { type: Number },
     };
   }
 
@@ -55,12 +55,12 @@ export class MyElement extends LitElement {
     };
     this.EmpFormData = [];
     this.isEditing = false;
-    this.progress=0;
-    this.progress1=0;
-    this.progress2=0;
-    this.progress3=0;
-    this.progress4=0;
-    this.progress5=0;
+    this.progress = 0;
+    this.progress1 = 0;
+    this.progress2 = 0;
+    this.progress3 = 0;
+    this.progress4 = 0;
+    this.progress5 = 0;
   }
 
   static get styles() {
@@ -89,13 +89,14 @@ export class MyElement extends LitElement {
      font-size:30px;
      text-transform:uppercase;
      text-align:center;
-     /* background: -webkit-linear-gradient(#6a11cb, #2575fc );
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent; */
+     color:#eee9e9;
+    
    }
    .header {
-      padding:10px 0;
-      background-image: linear-gradient(120deg, #0bdb58 0%, #0f9ee6 100%);
+      padding:1px 0;
+      /* background-image: linear-gradient(120deg, #0bdb58 0%, #0f9ee6 100%); */
+       background-image: linear-gradient(120deg, #080808 10%, #0917dd 100%);
+      /* background-color:#000; */
     }
     .container{
      background-color: #fff;
@@ -105,8 +106,10 @@ export class MyElement extends LitElement {
      overflow:hidden;
      width:45%;
      margin:0px auto;
-     background-color:#e2ecd5;
-     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+     /* background-color:#e2ecd5; */
+     background-color:#aeafac;
+     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+     /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
      
     }
     .form{
@@ -172,6 +175,7 @@ export class MyElement extends LitElement {
    input{
       width:96.5%;
       padding: 7px 20px;
+      
       box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
     }
     #country,#state,#city,#department,#designation{
@@ -226,14 +230,12 @@ export class MyElement extends LitElement {
       for (const fieldId in fields) {
         const inputField = this.renderRoot.querySelector(fieldId);
         inputField.value = this.editData[fields[fieldId]];
-        // console.log(fields[fieldId]);
       }
       this.renderRoot.querySelector("#phone-input").value = this.editData.phone;
       // console.log(this.editData.phone);
       this.renderRoot.querySelector("#zip").value = Number(
         this.editData.zipcode
       );
-      // run a function to pre-fill form
     } else {
       console.log("creating new");
     }
@@ -338,75 +340,66 @@ export class MyElement extends LitElement {
       this.validateForm(e, type);
     }
   }
-  progressOne(){
-    if(this.empForm.name.isValidName===true){
-    this.progress1=20;
-    this.finalprogress() 
-    console.log("in name") 
-    }
-    else{
-      this.progress1=0;
-      this.finalprogress()
-    }
-  }
-  progressTwo(){
-    if(this.empForm.empCode.isValidName===true){
-    this.progress2=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress2=0;
-      this.finalprogress()
+  progressOne() {
+    if (this.empForm.name.isValidName === true) {
+      this.progress1 = 20;
+      this.finalprogress();
+      console.log("in name");
+    } else {
+      this.progress1 = 0;
+      this.finalprogress();
     }
   }
-  progressThree(){
-    if(this.empForm.address.isValidName===true){
-    this.progress3=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress3=0;
-      this.finalprogress()
-    }
-  }
-  progressFour(){
-    if(this.empForm.landmark.isValidName===true){
-    this.progress4=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress4=0;
-      this.finalprogress()
+  progressTwo() {
+    if (this.empForm.empCode.isValidName === true) {
+      this.progress2 = 20;
+      this.finalprogress();
+    } else {
+      this.progress2 = 0;
+      this.finalprogress();
     }
   }
-  progressFive(){
-    if(this.empForm.zipcode.isValidName===true){
-    this.progress5=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress5=0;
-      this.finalprogress()
+  progressThree() {
+    if (this.empForm.address.isValidName === true) {
+      this.progress3 = 20;
+      this.finalprogress();
+    } else {
+      this.progress3 = 0;
+      this.finalprogress();
     }
   }
-  finalprogress(){
-    this.progress=Number(this.progress1)+Number(this.progress2)+Number(this.progress3)+Number(this.progress4)+Number(this.progress5);
-    console.log(this.progress)
+  progressFour() {
+    if (this.empForm.landmark.isValidName === true) {
+      this.progress4 = 20;
+      this.finalprogress();
+    } else {
+      this.progress4 = 0;
+      this.finalprogress();
+    }
   }
-
+  progressFive() {
+    if (this.empForm.zipcode.isValidName === true) {
+      this.progress5 = 20;
+      this.finalprogress();
+    } else {
+      this.progress5 = 0;
+      this.finalprogress();
+    }
+  }
+  finalprogress() {
+    this.progress =
+      Number(this.progress1) +
+      Number(this.progress2) +
+      Number(this.progress3) +
+      Number(this.progress4) +
+      Number(this.progress5);
+    console.log(this.progress);
+  }
 
   render() {
     return html`
       <div id="bod">
-      <!-- <sl-button
-          variant="text"
-          size="large"
-          
-          class="store"
-          
-        > <a href="index.html">+New Entry</a>
-          
-        </sl-button> -->
+      
         <div class="container">
           <div class="header">
             
@@ -426,19 +419,7 @@ export class MyElement extends LitElement {
             <div class="form-control">
            
               <label for="name-input"> EmpName</label>
-              <!-- <input
-                type="text"
-                id="name-input"
-                required
-                autocomplete="off"
-                placeholder="Enter your Fullname "
-                @input=${(e) => this.decider(e, "empName")}
-                style=${
-                  this.empForm.name?.errorMessage
-                    ? "border: solid 1px red;"
-                    : ""
-                }
-              /> -->
+             
               <sl-input size="medium" pill
                 type="text"
                 id="name-input"
@@ -455,7 +436,7 @@ export class MyElement extends LitElement {
                 
                 placeholder="Clearable"
                 clearable 
-              ></sl-input>
+              > <sl-icon name="person-circle" slot="prefix"></sl-icon></sl-input>
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
             
@@ -466,17 +447,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Enter your Employee code.">
             <div class="form-control">
               <label for="empcode-input">EmpCode:</label>
-              <!-- <input
-                id="empcode-input"
-                required
-                placeholder="Enter your Employee code"
-                @input=${(e) => this.decider(e, "empCode")}
-                style=${
-                  this.empForm.empCode?.errorMessage
-                    ? "border: solid 1px red;"
-                    : ""
-                }
-              /> -->
+             
               <sl-input  size="medium" pill
                 id="empcode-input"
                 required
@@ -491,7 +462,7 @@ export class MyElement extends LitElement {
                 }
                    placeholder="Clearable"
                 clearable
-              /></sl-input>
+              /> <sl-icon name="grid-3x2-gap" slot="prefix"></sl-icon></sl-input>
               <p id="display">${this.empForm.empCode.errorMessage}</p>
             </div>
             </sl-tooltip >
@@ -501,17 +472,7 @@ export class MyElement extends LitElement {
             <div class="form-control">
               <label for="email-input">Email:</label>
 
-              <!-- <input
-                id="email-input"
-                placeholder="Enter your Email id"
-                required
-                @input=${(e) => this.decider(e, "email")}
-                style=${
-                  this.empForm.email?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              /> -->
+             
               <sl-input  size="medium" pill
                 id="email-input"
                 type="email"
@@ -525,7 +486,7 @@ export class MyElement extends LitElement {
                 }
                  placeholder="Clearable"
                 clearable
-              ></sl-input>
+              > <sl-icon name="envelope-at" slot="prefix"></sl-icon></sl-input>
               <p id="display">${this.empForm.email.errorMessage}</p>
             </div>
             </sl-tooltip >
@@ -537,7 +498,9 @@ export class MyElement extends LitElement {
 
               ${
                 !this.isEditing
-                  ? html` <!-- <input
+                  ? html` <sl-input
+                      size="medium"
+                      pill
                       type="Number"
                       id="phone-input"
                       placeholder="Enter your phone"
@@ -545,36 +508,19 @@ export class MyElement extends LitElement {
                       required
                       @input=${(e) => this.decider(e, "phone")}
                       style=${this.empForm.phone?.errorMessage
-                        ? "border: solid 3px red;"
+                        ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                         : ""}
-                    /> -->
-                      <sl-input  size="medium" pill
-                        type="Number"
-                        id="phone-input"
-                        placeholder="Enter your phone"
-                        autocomplete="off"
-                        required
-                        @input=${(e) => this.decider(e, "phone")}
-                        style=${this.empForm.phone?.errorMessage
-                          ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
-                          : ""}
-                        ><sl-input>
-                          <p id="display">
-                            ${this.empForm.phone.errorMessage}
-                          </p></sl-input
-                        ></sl-input
-                      >`
-                  : html` <!-- <input
-                      id="phone-input"
-                      placeholder="Enter your phone"
-                      autocomplete="off"
-                      required
-                      @input=${(e) => this.decider(e, "phone")}
-                      style=${this.empForm.phone?.errorMessage
-                        ? "border: solid 3px red;"
-                        : ""}
-                    /> -->
-                      <sl-input  size="medium" pill
+                    >
+                      <sl-icon name="telephone" slot="prefix"></sl-icon
+                      ><sl-input>
+                        <p id="display">
+                          ${this.empForm.phone.errorMessage}
+                        </p></sl-input
+                      ></sl-input
+                    >`
+                  : html` <sl-input
+                        size="medium"
+                        pill
                         id="phone-input"
                         placeholder="Enter your phone"
                         autocomplete="off"
@@ -598,7 +544,7 @@ export class MyElement extends LitElement {
                 placeholder="Choose your designation"
                 name="designation"
                 @click=${(e) => this.decider(e, "designation")}
-              >
+              > <sl-icon name="person-video2" slot="prefix"></sl-icon>
                 ${repeat(
                   designation,
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
@@ -610,18 +556,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Choose your department">   
             <div class="form-control">
               <label>Department:</label>
-              <!-- <select
-                id="department"
-                required
-                @input=${(e) => this.decider(e, "department")}
-                style=${
-                  this.empForm.department?.errorMessage
-                    ? "border: solid 4px red;"
-                    : ""
-                }
-              >
-                ${repeat(department, (e) => html`<option>${e}</option>`)}
-              </select> -->
+             
               <sl-select  size="medium" pill
                 id="department"
                 required
@@ -633,7 +568,7 @@ export class MyElement extends LitElement {
                     ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                     : ""
                 }
-              >
+              > <sl-icon name="person-video2" slot="prefix"></sl-icon>
                 ${repeat(
                   department,
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
@@ -646,18 +581,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Enter your Address">   
             <div class="form-control">
               <label>Address line 1:</label>
-              <!-- <input
-                id="adline1"
-                placeholder="Enter your Address"
-                required
-                autocomplete="off"
-                @input=${(e) => this.decider(e, "addressLine1")}
-                style=${
-                  this.empForm.address?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              /> -->
+              
               <sl-input  size="medium" pill
                 id="adline1"
                 placeholder="House no, Area,Locality"
@@ -674,24 +598,14 @@ export class MyElement extends LitElement {
                 }
                  placeholder="Clearable"
                 clearable
-              ></sl-input>
+              > <sl-icon name="house" slot="prefix"></sl-icon></sl-input>
             </div>
             </sl-tooltip >
             <!------------------------------------------------>
             <sl-tooltip content="Enter your Address">   
             <div class="form-control">
               <label>Address line 2</label>
-              <!-- <input
-                id="adline2"
-                placeholder="optional"
-                autocomplete="off"
-                @input=${(e) => this.decider(e, "addressLine2")}
-                style=${
-                  this.empForm.address?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              /> -->
+              
               <sl-input size="medium" pill
                 id="adline2"
                 placeholder="optional"
@@ -700,7 +614,7 @@ export class MyElement extends LitElement {
                 @input=${(e) => this.decider(e, "addressLine2")}
                 placeholder="Clearable"
                 clearable
-              ></sl-input>
+              > <sl-icon name="house" slot="prefix"></sl-icon></sl-input>
               <!-- <p id="display">${this.empForm.address.errorMessage}</p> -->
             </div>
             </sl-tooltip >
@@ -708,18 +622,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Enter your Landmark">   
             <div class="form-control">
               <label>Landmark:</label>
-              <!-- <input
-                id="landmark"
-                required
-                type="text"
-                placeholder="Enter your Landmark"
-                @input=${(e) => this.decider(e, "landmark")}
-                style=${
-                  this.empForm.landmark?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              /> -->
+             
               <sl-input  size="medium" pill
                 id="landmark"
                 required
@@ -735,7 +638,7 @@ export class MyElement extends LitElement {
                 }
                  placeholder="Clearable"
                 clearable
-              /></sl-input>
+              /> <sl-icon name="geo-alt" slot="prefix"></sl-icon></sl-input>
               <p id="display">${this.empForm.landmark.errorMessage}</p>
             </div>
             </sl-tooltip >
@@ -743,18 +646,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Choose your country"> 
             <div class="form-control">
               <label>Country:</label>
-              <!-- <select
-                id="country"
-                required
-                @input=${(e) => this.decider(e, "country")}
-                style=${
-                  this.empForm.country?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              >
-                ${repeat(country, (e) => html` <option>${e}</option>`)}
-              </select> -->
+             
               <sl-select  size="medium" pill
                 id="country"
                 required
@@ -762,7 +654,7 @@ export class MyElement extends LitElement {
                 placeholder="Choose your country"
                 @click=${(e) => this.decider(e, "country")}
                
-              >
+              > <sl-icon name="globe-central-south-asia" slot="prefix"></sl-icon>
                 ${repeat(
                   country,
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
@@ -775,18 +667,7 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Choose your State"> 
             <div class="form-control">
               <label>State:</label>
-              <!-- <select
-                id="state"
-                required
-                @input=${(e) => this.decider(e, "state")}
-                style=${
-                  this.empForm.state?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              >
-                ${repeat(state, (e) => html` <option>${e}</option>`)}
-              </select> -->
+             
               <sl-select  size="medium" pill
                 id="country"
                 required
@@ -794,7 +675,7 @@ export class MyElement extends LitElement {
                 placeholder="Choose your state"
                 @click=${(e) => this.decider(e, "country")}
                
-              >
+              > <sl-icon name="hospital" slot="prefix"></sl-icon>
                 ${repeat(
                   country,
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
@@ -807,25 +688,14 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Choose your city"> 
             <div class="form-control">
               <label>City:</label>
-              <!-- <select
-                id="city"
-                required
-                @input=${(e) => this.decider(e, "city")}
-                style=${
-                  this.empForm.city?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              >
-                ${repeat(city, (e) => html` <option>${e}</option>`)}
-              </select> -->
+             
               <sl-select size="medium" pill
                 id="city"
                 required
                 name="city"
                 placeholder="Choose your city"
                 @click=${(e) => this.decider(e, "city")}
-              >
+              > <sl-icon name="building-fill-add" slot="prefix"></sl-icon>
                 ${repeat(
                   city,
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
@@ -841,20 +711,9 @@ export class MyElement extends LitElement {
             <sl-tooltip content="Enter your Zip code"> 
             <div class="form-control">
               <label>Pin Code:</label>
-              <!-- <input
-                type="Number"
-                id="zip"
-                required
-                placeholder="Enter your pincode"
-                autocomplete="off"
-                @input=${(e) => this.decider(e, "zipCode")}
-                style=${
-                  this.empForm.zipcode?.errorMessage
-                    ? "border: solid 3px red;"
-                    : ""
-                }
-              /> -->
-              <sl-input size="medium" pill
+              
+              <sl-input size="medium" pill 
+              
                 type="Number"
                 id="zip"
                 required
@@ -868,7 +727,7 @@ export class MyElement extends LitElement {
                     : ""
                 }
 
-              ></sl-input>
+              > <sl-icon name="grid-3x3-gap" slot="prefix"></sl-icon></sl-input>
               <p id="display">${this.empForm.zipcode.errorMessage}</p>
               
             </div>
@@ -951,7 +810,8 @@ export class MyElement extends LitElement {
             };
             console.log(this.empForm.name);
           }
-        }  this.progressOne();
+        }
+        this.progressOne();
         break;
       //===================================================
 
@@ -1005,7 +865,8 @@ export class MyElement extends LitElement {
             };
             // console.log(this.empForm.empCode);
           }
-        } this.progressTwo();
+        }
+        this.progressTwo();
         break;
       //============================================================
       case "email":
@@ -1131,7 +992,8 @@ export class MyElement extends LitElement {
               },
             };
           }
-        } this.progressThree();
+        }
+        this.progressThree();
         break;
       //===================================================
       case "addressLine2":
@@ -1176,7 +1038,8 @@ export class MyElement extends LitElement {
               errorMessage: "",
             },
           };
-        }  this.progressFour();
+        }
+        this.progressFour();
         break;
       //==================================================
 
@@ -1307,7 +1170,8 @@ export class MyElement extends LitElement {
               },
             };
           }
-        }   this.progressFive();
+        }
+        this.progressFive();
         break;
     }
   }
